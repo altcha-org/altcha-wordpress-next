@@ -30,6 +30,7 @@ if (!$doing_cron && !$wp_cli) {
 
 function altcha_interceptor()
 {
+  global $pagenow;
   $plugin = AltchaPlugin::$instance;
   $internal_actions = array(
     "altcha_get_analytics_data",
@@ -45,7 +46,7 @@ function altcha_interceptor()
     "wp-cron.php",
   );
   $cookie_name = "altcha";
-  $script_name = null;
+  $script_name = $pagenow;
   $action = null;
   $form_id = null;
   $payload = null;
@@ -54,7 +55,7 @@ function altcha_interceptor()
   $path = $plugin->get_request_path();
   $under_attack = $plugin->get_under_attack();
 
-  if (isset($_SERVER["SCRIPT_NAME"])) {
+  if (empty($script_name) && isset($_SERVER["SCRIPT_NAME"])) {
     $script_name = basename(wp_parse_url($_SERVER["SCRIPT_NAME"], PHP_URL_PATH));
   }
 
@@ -85,7 +86,7 @@ function altcha_interceptor()
     return;
   }
 
-  if ($script_name === "wp-login.php" && $protect_login !== true) {
+  if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login !== true) {
     // Bypass for login page
     return;
   }
@@ -166,7 +167,7 @@ function altcha_interceptor()
       // Bypass for internal actions
       return;
     }
-  } else if ($script_name === "wp-login.php" && $protect_login === true && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
+  } else if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login === true && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
     // Bypass for whitelisted login action
     return;
   }
