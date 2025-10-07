@@ -1,0 +1,40 @@
+name: WordPress Plugin Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get tag version
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Prepare plugin zip
+        run: |
+          PLUGIN_SLUG="altcha"
+          ZIP_NAME="${PLUGIN_SLUG}.zip"
+          zip -r "$ZIP_NAME" . --exclude "e2e/*" ".*" "README.md" "CONTRIBUTING.md"
+          echo "ZIP_PATH=$(pwd)/$ZIP_NAME" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          name: "Release ${{ steps.get_version.outputs.version }}"
+          body: |
+            ALTCHA For WordPress Plugin ${{ steps.get_version.outputs.version }}
+          files: |
+            ${{ env.ZIP_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

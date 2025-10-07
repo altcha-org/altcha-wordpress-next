@@ -1,0 +1,49 @@
+.altcha-widget-wrap {
+  margin-bottom: 1rem !important;
+}
+
+.forminator-pagination--content + .altcha-widget-wrap {
+  margin-top: 1.5rem !important;
+}
+
+.altcha-widget-wrap .altcha-main {
+  line-height: 1;
+}
+
+.altcha-widget-wrap .altcha-main svg {
+  display: block;
+}
+
+.altcha-code-challenge {
+  z-index: 9999999;
+}
+
+.altcha-code-challenge form {
+  margin-bottom: 0 !important;
+}
+
+.login .altcha:not([data-floating]) {
+  --altcha-max-width: 100%;
+}
+
+.altcha-overlay {
+  --altcha-max-width: 100%;
+  --altcha-border-radius: 6px;
+  --altcha-color-border: rgba(0, 0, 0, 1);
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  gap: 0;
+  min-width: 320px;
+  padding: 0.5rem 1rem 1rem 1rem !important;
+}
+
+.altcha-overlay .altcha {
+  font-family: sans-serif;
+  font-size: 16px !important;
+}
+
+.altcha-overlay .altcha-footer {
+  font-size: 14px !important;
+}

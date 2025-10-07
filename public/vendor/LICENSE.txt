@@ -1,0 +1,5 @@
+Proprietary Components - Minified JavaScript
+Copyright (c) 2025 BAU Software s.r.o., Czechia. All rights reserved.
+ 
+Provided only in minified form and is not source-available.
+Unauthorized reverse engineering, modification, or distribution is prohibited.

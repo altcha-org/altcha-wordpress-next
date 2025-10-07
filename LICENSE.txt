@@ -1,0 +1,108 @@
+# END-USER LICENSE AGREEMENT (EULA)
+
+for Software “ALTCHA for WordPress Plugin”.
+
+Copyright © 2025 BAU Software s.r.o., Czechia. All rights reserved.
+
+## 1. AGREEMENT
+
+This End-User License Agreement (“Agreement”) is a legal contract between you (“Licensee”) and BAU Software s.r.o. (“Licensor”) governing your use of the software, source code, documentation, and related materials provided by Licensor (collectively, the “Software”).
+
+By copying, accessing, or using the Software, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. If you do not agree, do not install, copy, or use the Software.
+
+## 2. DEFINITIONS
+
+* “Software” means the source code, object code, executables, documentation, and related materials provided by Licensor.
+* “Licensee” means the individual or entity granted rights under this Agreement.
+* “Licensor” means BAU Software s.r.o., or its assigns.
+* “Production Use” means any use of the Software in a live, public, or commercial environment where it processes real end-user data, serves network traffic, provides services to third parties, or supports business operations outside internal testing, debugging, or development.
+* “Modification” or “Modify” means any alteration, adaptation, translation, compilation, or creation of derivative works of the Software, including combining it with other code.
+
+## 3. LICENSE GRANT
+
+Subject to the terms and conditions of this Agreement, Licensor grants Licensee a non-exclusive, non-transferable, revocable, limited license to:
+
+1. Access and use the Software solely for internal development, testing, debugging, and evaluation;
+2. Create Modifications of the Software solely for internal testing, debugging, and evaluation purposes.
+
+No other rights are granted, express or implied.
+
+## 4. RESTRICTIONS
+
+Licensee shall not, and shall not permit others to:
+
+1. Distribute, publish, sublicense, lease, sell, share, transfer, rent, host, or otherwise make the Software (in whole or part, including source or object code) available to any third party;
+2. Use the Software or any Modifications for Production Use;
+3. Use the Software or Modifications in any commercial offering, hosted service, or production deployment;
+4. Remove or alter any copyright, trademark, or proprietary notices;
+5. Allow access to the Software by contractors or third parties unless they are bound by confidentiality and use restrictions at least as protective as this Agreement and act solely on Licensee’s behalf for internal testing or debugging;
+6. Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source or design of compiled components, except to the extent permitted by applicable law notwithstanding this restriction.
+
+## 5. OWNERSHIP
+
+The Software is and remains the exclusive property of Licensor.
+This Agreement grants Licensee only a limited right to use the Software; it does not convey any title, ownership, or intellectual property rights.
+All rights not expressly granted herein are reserved by Licensor.
+
+## 6. FEEDBACK
+
+If Licensee provides feedback, bug reports, suggestions, or patches (“Feedback”), Licensor may freely use, reproduce, and incorporate such Feedback without restriction or obligation.
+Licensee hereby assigns to Licensor all rights, title, and interest in such Feedback.
+
+## 7. TERM AND TERMINATION
+
+This Agreement is effective upon Licensee’s receipt of the Software and remains in effect until terminated.
+Licensor may terminate this Agreement immediately if Licensee breaches any term.
+
+Upon termination, Licensee must:
+
+* Cease all use of the Software;
+* Destroy or return all copies, including Modifications;
+* Retain copies only where required by applicable law.
+
+## 8. ENFORCEMENT AND REMEDIES
+
+Licensee acknowledges that unauthorized distribution, Production Use, or breach of restrictions would cause irreparable harm to Licensor.
+Licensor is entitled to seek injunctive relief and any other remedies available at law or in equity.
+
+## 9. EXCLUDED COMPONENTS
+
+Certain components are distributed only in minified or compiled form, and their source code is not provided:
+
+* `/public/vendor/*`
+* Any other precompiled or bundled components explicitly marked as such
+
+These components may be used only as part of the Software and may not be reverse engineered, decompiled, or extracted except where required by law.
+
+## 10. THIRD-PARTY COMPONENTS
+
+The Software may include or link to third-party components under separate license terms.
+Those third-party terms govern their respective components and are not affected by this Agreement.
+
+## 11. NO WARRANTIES
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WITHOUT LIMITATION ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NON-INFRINGEMENT.
+
+Licensee assumes all risks arising from use of the Software.
+
+## 12. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF PROFITS, DATA, OR BUSINESS INTERRUPTION) ARISING FROM OR RELATING TO THIS AGREEMENT OR THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+## 13. EXPORT AND COMPLIANCE
+
+Licensee shall comply with all applicable export, import, and trade control laws and regulations in connection with its use of the Software.
+
+## 14. COMMERCIAL AND PRODUCTION LICENSES
+
+A Free Plan applies automatically upon installation of the Software. The Free Plan allows Production Use of the Software, subject to the general terms and restrictions of this Agreement.
+
+For additional features, support, or enhanced rights, Licensee may purchase a Professional Plan or another commercial license from Licensor.
+
+## 15. GENERAL
+
+1. Severability – If any provision is held unenforceable, the remaining provisions shall remain in full force and effect.
+2. Waiver – Failure to enforce any right or provision shall not constitute a waiver of that right.
+3. Governing Law – This Agreement is governed by and construed in accordance with the laws of the Czech Republic, without regard to conflict of law principles.
+4. Entire Agreement – This Agreement constitutes the entire agreement between the parties with respect to the Software and supersedes all prior or contemporaneous understandings.
+
