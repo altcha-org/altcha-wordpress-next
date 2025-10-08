@@ -343,6 +343,10 @@ class AltchaPlugin
       $paths[] = $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/checkout"), PHP_URL_PATH));
       $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/*"), PHP_URL_PATH));
     }
+    if (in_array("real-cookie-banner", $installed_plugins)) {
+      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/real-cookie-banner/v1/consent"), PHP_URL_PATH));
+      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/*/consent"), PHP_URL_PATH));
+    }
     return $paths;
   }
 
@@ -428,8 +432,8 @@ class AltchaPlugin
       "complianz-gdpr" => is_plugin_active("complianz-gdpr/complianz-gpdr.php"),
       "cookie-law-info" => is_plugin_active("cookie-law-info/cookie-law-info.php"),
       "wplegalpages" => is_plugin_active("wplegalpages/wplegalpages.php"),
-      "gdpr-cookie-compliance" => is_plugin_active("gdpr-cookie-compliance/gdpr-cookie-compliance.php"),
-      "real-cookie-banner" => is_plugin_active("real-cookie-banner/real-cookie-banner.php"),
+      "gdpr-cookie-compliance" => is_plugin_active("gdpr-cookie-compliance/moove-gdpr.php"),
+      "real-cookie-banner" => is_plugin_active("real-cookie-banner/index.php"),
       // notifications
       "notificationx" => is_plugin_active("notificationx/notificationx.php"),
       "notifal" => is_plugin_active("notifal/notifal.php"),

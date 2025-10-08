@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.0.1
-Stable tag: 2.0.1
+Version: 2.0.2
+Stable tag: 2.0.2
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.8
@@ -48,6 +48,11 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.0.2 =
+* Under Attack Mode is now disabled on excluded actions and paths
+* Default excluded paths for "Real Cookie Banner"
+* Enable debugging mode using local storage variable
 
 = 2.0.1 =
 * Fix login issues related to "hide login" plugins

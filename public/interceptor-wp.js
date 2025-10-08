@@ -20,7 +20,8 @@
 (() => {
   const debug =
     /^localhost|.*\.localhost|.*\.test$/.test(location.hostname) ||
-    /:\d+$/.test(location.host);
+    /:\d+$/.test(location.host) ||
+    localStorage.getItem("altcha_debug") === "1";
   const defaultActionName = "action";
   const config = pluginData?.altcha || {};
   const actions = config.actions || [];
@@ -215,7 +216,7 @@
     const ttl = parseInt(getCookie("altcha_under_attack_ttl") || "0", 10);
     if (
       !refreshUnderAttackPromise &&
-      (!underAttackCookie || expires < (Date.now() + 15_000))
+      (!underAttackCookie || expires < Date.now() + 15_000)
     ) {
       refreshUnderAttackPromise = interceptor.requestAltchaVerification(
         {
@@ -294,6 +295,8 @@
   });
 
   if (!window.isSecureContext) {
-    console.warn('Secure Context (HTTPS) Required! ALTCHA requires a secure connection (HTTPS), also known as a Secure Context [https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts]. Please access this page over HTTPS or use whitelisted localhost domains for development.');
+    console.warn(
+      "Secure Context (HTTPS) Required! ALTCHA requires a secure connection (HTTPS), also known as a Secure Context [https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts]. Please access this page over HTTPS or use whitelisted localhost domains for development."
+    );
   }
 })();

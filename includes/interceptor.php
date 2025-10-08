@@ -96,6 +96,42 @@ function altcha_interceptor()
     return;
   }
 
+  if ($plugin->match_patterns($plugin->get_request_path(), $paths_list) === false) {
+    // Bypass for whitelisted path
+    return;
+  }
+
+  $action = altcha_interceptor_detect_action($actions_list);
+
+  if ($action === false) {
+    // Bypass for whitelisted action
+    return;
+  }
+
+  if ($script_name === "admin-ajax.php") {
+    $form_id = get_query_var("form_id");
+
+    if (isset($_GET["form_id"])) {
+      $form_id = sanitize_text_field(wp_unslash($_GET["form_id"]));
+    }
+
+    // Find form_id in POST data, supports prefixed names such as 
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/form_id$/i", $key)) {
+        $form_id = $value;
+        break;
+      }
+    }
+
+    if (!empty($action) && in_array($action, $internal_actions)) {
+      // Bypass for internal actions
+      return;
+    }
+  } else if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login === true && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
+    // Bypass for whitelisted login action
+    return;
+  }
+
   ////////
   // Under Attack
   ///////
@@ -133,42 +169,6 @@ function altcha_interceptor()
 
   if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] !== "POST" && $script_name !== "admin-ajax.php") {
     // Bypass for non-POST requests
-    return;
-  }
-
-  if ($plugin->match_patterns($plugin->get_request_path(), $paths_list) === false) {
-    // Bypass for whitelisted path
-    return;
-  }
-
-  $action = altcha_interceptor_detect_action($actions_list);
-
-  if ($action === false) {
-    // Bypass for whitelisted action
-    return;
-  }
-
-  if ($script_name === "admin-ajax.php") {
-    $form_id = get_query_var("form_id");
-
-    if (isset($_GET["form_id"])) {
-      $form_id = sanitize_text_field(wp_unslash($_GET["form_id"]));
-    }
-
-    // Find form_id in POST data, supports prefixed names such as 
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/form_id$/i", $key)) {
-        $form_id = $value;
-        break;
-      }
-    }
-
-    if (!empty($action) && in_array($action, $internal_actions)) {
-      // Bypass for internal actions
-      return;
-    }
-  } else if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login === true && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
-    // Bypass for whitelisted login action
     return;
   }
 
