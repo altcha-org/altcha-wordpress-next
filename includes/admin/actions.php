@@ -45,6 +45,10 @@ function altcha_get_settings_ajax()
   altcha_ajax_check_access();
   wp_send_json_success(array(
     "defaults" => $plugin->get_default_settings(),
+    "recommended" => array(
+      "actions" => $plugin->get_default_actions(),
+      "paths" => $plugin->get_default_paths(),
+    ),
     "settings" => $plugin->get_settings()
   ));
 }

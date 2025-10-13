@@ -298,8 +298,8 @@ class AltchaPlugin
   {
     return array(
       "mode" => "standard",
-      "actions" => $this->get_default_actions(),
-      "paths" => $this->get_default_paths(),
+      "actions" => array_merge(...array_values($this->get_default_actions())),
+      "paths" => array_merge(...array_values($this->get_default_paths())),
       "eventsEnabled" => true,
       "eventsRetentionDays" => self::$free_max_data_retention_days,
       "eventsLogBlocked" => true,
@@ -312,20 +312,30 @@ class AltchaPlugin
   {
     $installed_plugins = $this->get_installed_plugins();
     $actions = array(
-      "*",
+      "" => array(
+        "*",
+      ),
     );
     if (in_array("elementor", $installed_plugins) || in_array("elementor-pro", $installed_plugins)) {
-      $actions[] = "!elementor_js_log";
+      $actions["Elementor"] = array(
+        "!elementor_js_log",
+      );
     }
     if (in_array("forminator", $installed_plugins)) {
-      $actions[] = "!forminator_get_nonce";
+      $actions["Forminator"] = array(
+        "!forminator_get_nonce",
+      );
     }
     if (in_array("woocommerce", $installed_plugins)) {
-      $actions[] = "!wc-ajax=*";
-      $actions[] = "!*_wc_privacy_cleanup";
+      $actions["WooCommerce"] = array(
+        "!wc-ajax=*",
+        "!*_wc_privacy_cleanup",
+      );
     }
     if (in_array("wpdiscuz", $installed_plugins)) {
-      $actions[] = "!wpdCheckNotificationType";
+      $actions["wpDiscuz"] = array(
+        "!wpdCheckNotificationType",
+      );
     }
     return $actions;
   }
@@ -334,18 +344,26 @@ class AltchaPlugin
   {
     $installed_plugins = $this->get_installed_plugins();
     $paths = array(
-      "*",
+      "" => array(
+        "*"
+      ),
     );
     if (in_array("metform", $installed_plugins)) {
-      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/metform/v1/forms/views/*"), PHP_URL_PATH));
+      $paths["MetForm"] = array(
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/metform/v1/forms/views/*"), PHP_URL_PATH)),
+      );
     }
     if (in_array("woocommerce", $installed_plugins)) {
-      $paths[] = $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/checkout"), PHP_URL_PATH));
-      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/*"), PHP_URL_PATH));
+      $paths["WooCommerce"] = array(
+        $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/checkout"), PHP_URL_PATH)),
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/*"), PHP_URL_PATH)),
+      );
     }
     if (in_array("real-cookie-banner", $installed_plugins)) {
-      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/real-cookie-banner/v1/consent"), PHP_URL_PATH));
-      $paths[] = "!" . $this->normalize_path(wp_parse_url(rest_url("/*/consent"), PHP_URL_PATH));
+      $paths["Real Cookie Banner"] = array(
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/real-cookie-banner/v1/consent"), PHP_URL_PATH)),
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/*/consent"), PHP_URL_PATH)),
+      );
     }
     return $paths;
   }
@@ -411,32 +429,32 @@ class AltchaPlugin
   {
     $plugins = array(
       // general
-      "elementor" => is_plugin_active("elementor-pro/elementor.php"),
-      "elementor-pro" => is_plugin_active("elementor-pro/elementor-pro.php"),
-      "formidable" => is_plugin_active("formidable/formidable.php"),
-      "forminator" => is_plugin_active("forminator/forminator.php"),
-      "gravityforms" => is_plugin_active("gravityforms/gravityforms.php"),
-      "metform" => is_plugin_active("metform/metform.php"),
-      "wpdiscuz" => is_plugin_active("wpdiscuz/class.WpdiscuzCore.php"),
-      "wpforms" => is_plugin_active("wpforms/wpforms.php"),
-      "wp-rocket" => is_plugin_active("wp-rocket/wp-rocket.php"),
+      "elementor" => $this->is_plugin_installed("elementor.php"),
+      "elementor-pro" => $this->is_plugin_installed("elementor-pro.php"),
+      "formidable" => $this->is_plugin_installed("formidable.php"),
+      "forminator" => $this->is_plugin_installed("forminator.php"),
+      "gravityforms" => $this->is_plugin_installed("gravityforms.php"),
+      "metform" => $this->is_plugin_installed("metform.php"),
+      "wpdiscuz" => $this->is_plugin_installed("class.WpdiscuzCore.php"),
+      "wpforms" => $this->is_plugin_installed("wpforms.php"),
+      "wp-rocket" => $this->is_plugin_installed("wp-rocket.php"),
       // e-commerce
-      "easy-digital-downloads" => is_plugin_active("easy-digital-downloads/easy-digital-downloads.php"),
-      "memberpress" => is_plugin_active("memberpress/memberpress.php"),
-      "professional-ecommerce" => is_plugin_active("professional-ecommerce/marketpress.php"),
-      "surecart" => is_plugin_active("surecart/surecart.php"),
-      "woocommerce" => is_plugin_active("woocommerce/woocommerce.php"),
-      "wp-easycart" => is_plugin_active("wp-easycart/wp-easycart.php"),
+      "easy-digital-downloads" => $this->is_plugin_installed("easy-digital-downloads.php"),
+      "memberpress" => $this->is_plugin_installed("memberpress.php"),
+      "professional-ecommerce" => $this->is_plugin_installed("marketpress.php"),
+      "surecart" => $this->is_plugin_installed("surecart.php"),
+      "woocommerce" => $this->is_plugin_installed("woocommerce.php"),
+      "wp-easycart" => $this->is_plugin_installed("wp-easycart.php"),
       // legal
-      "iubenda-cookie-law-solution" => is_plugin_active("iubenda-cookie-law-solution/iubenda_cookie_solution.php"),
-      "complianz-gdpr" => is_plugin_active("complianz-gdpr/complianz-gpdr.php"),
-      "cookie-law-info" => is_plugin_active("cookie-law-info/cookie-law-info.php"),
-      "wplegalpages" => is_plugin_active("wplegalpages/wplegalpages.php"),
-      "gdpr-cookie-compliance" => is_plugin_active("gdpr-cookie-compliance/moove-gdpr.php"),
-      "real-cookie-banner" => is_plugin_active("real-cookie-banner/index.php"),
+      "iubenda-cookie-law-solution" => $this->is_plugin_installed("iubenda_cookie_solution.php"),
+      "complianz-gdpr" => $this->is_plugin_installed("complianz-gpdr.php"),
+      "cookie-law-info" => $this->is_plugin_installed("cookie-law-info.php"),
+      "wplegalpages" => $this->is_plugin_installed("wplegalpages.php"),
+      "gdpr-cookie-compliance" => $this->is_plugin_installed("moove-gdpr.php"),
+      "real-cookie-banner" => $this->is_plugin_installed("real-cookie-banner/index.php"),
       // notifications
-      "notificationx" => is_plugin_active("notificationx/notificationx.php"),
-      "notifal" => is_plugin_active("notifal/notifal.php"),
+      "notificationx" => $this->is_plugin_installed("notificationx.php"),
+      "notifal" => $this->is_plugin_installed("notifal.php"),
     );
     return array_keys(array_filter($plugins));
   }
@@ -525,8 +543,9 @@ class AltchaPlugin
     return $this->settings_json;
   }
 
-  public function get_site_path(): string {
-    $path = wp_parse_url(site_url(), PHP_URL_PATH); 
+  public function get_site_path(): string
+  {
+    $path = wp_parse_url(site_url(), PHP_URL_PATH);
     if (empty($path)) {
       return "/";
     }
@@ -708,6 +727,21 @@ class AltchaPlugin
       "salt" => $salt,
       "signature" => $signature
     );
+  }
+
+  public function is_plugin_installed(string $filename)
+  {
+    $all_plugins = get_plugins();
+    if (strpos($filename, "/") !== false) {
+      return array_key_exists($filename, $all_plugins);
+    } else {
+      foreach ($all_plugins as $plugin_file => $plugin_data) {
+        if (basename($plugin_file) === $filename) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
   public function log_event(string $event, string|null $action = null, string|null $form_id = null, string|null $reason = null, string|null $timezone = null, bool|null $interceptor = null, string|null $plugin = null, array|null $verification_data = null)
