@@ -305,6 +305,7 @@ class AltchaPlugin
       "eventsLogBlocked" => true,
       "eventsLogChallenges" => true,
       "eventsAnonymizeIps" => true,
+      "protectLogin" => true,
     );
   }
 
@@ -330,6 +331,11 @@ class AltchaPlugin
       $actions["WooCommerce"] = array(
         "!wc-ajax=*",
         "!*_wc_privacy_cleanup",
+      );
+    }
+    if (in_array("wordfence", $installed_plugins)) {
+      $actions["Wordfence"] = array(
+        "!wordfence_ls_authenticate",
       );
     }
     if (in_array("wpdiscuz", $installed_plugins)) {
@@ -455,6 +461,8 @@ class AltchaPlugin
       // notifications
       "notificationx" => $this->is_plugin_installed("notificationx.php"),
       "notifal" => $this->is_plugin_installed("notifal.php"),
+      // security
+      "wordfence" => $this->is_plugin_installed("wordfence.php"),
     );
     return array_keys(array_filter($plugins));
   }
@@ -1020,6 +1028,22 @@ class AltchaPlugin
   {
     $local_timestamp = $time + $gmt_offset_seconds;
     return $down ? floor($local_timestamp / $interval) * $interval : ceil($local_timestamp / $interval) * $interval;
+  }
+
+  public function set_default_actions_and_paths()
+  {
+    $actions = $this->get_settings("actions", array());
+    $paths = $this->get_settings("paths", array());
+    $actions_default = array_merge(...array_values($this->get_default_actions()));
+    $paths_default = array_merge(...array_values($this->get_default_paths()));
+    $actions_add = array_values(array_diff($actions_default, $actions));
+    $paths_add = array_values(array_diff($paths_default, $paths));
+    if (count($actions_add) || count($paths_add)) {
+      $settings = $this->get_settings();
+      $settings["actions"] = array_merge($settings["actions"], $actions_add);
+      $settings["paths"] = array_merge($settings["paths"], $paths_add);
+      update_option(AltchaPlugin::$option_settings, json_encode($settings));
+    }
   }
 
   public function store_used_challenge(string $challenge)

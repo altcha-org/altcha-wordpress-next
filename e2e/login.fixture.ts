@@ -12,7 +12,7 @@ test('Should not protect the login page when disabled', async (t) => {
     underAttack: 0,
   });
   await t.navigateTo(getUrl('/wp-login.php'));
-  await delay(250);
+  await delay(1000);
   await t.typeText('#user_login', ADMIN_USERNAME);
   await t.typeText('#user_pass', ADMIN_PASSWORD);
   await t.click(Selector('#wp-submit'));
@@ -28,7 +28,7 @@ test('Should protect the login page when enabled', async (t) => {
     underAttack: 0,
   });
   await t.navigateTo(getUrl('/wp-login.php'));
-  await delay(250);
+  await delay(1000);
   await t.typeText('#user_login', ADMIN_USERNAME);
   await t.typeText('#user_pass', ADMIN_PASSWORD);
   await t.click(Selector('#wp-submit'));

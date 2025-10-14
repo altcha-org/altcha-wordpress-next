@@ -28,6 +28,7 @@
   const paths = config.paths || [];
   const cookiePath = config.cookiePath || "/";
   const sitePath = config.sitePath || "/";
+  const protectLogin = !!config.protectLogin;
   const plugins = {
     coblocks: {
       actions: ["coblocks-form-submit"],
@@ -244,6 +245,7 @@
 
   interceptor = altchaInterceptor({
     filter: async (request) => {
+      const isLogin = request.method === "POST" && !!request.body?.log && !!request.body?.pwd;
       if (request.url.origin !== location.origin) {
         return false;
       }
@@ -259,7 +261,7 @@
       ) {
         return false;
       }
-      if (!matchPattern(normalizePath(request.url.pathname), paths)) {
+      if (!matchPattern(normalizePath(request.url.pathname), paths) && (!protectLogin || !isLogin)) {
         return false;
       }
       const action = matchActions(request, actions);
@@ -285,7 +287,6 @@
     onVerified: (payload) => {
       setCookie("altcha", payload, "path=" + cookiePath);
     },
-    invisible: false,
     debug,
     ...config,
     widget: {

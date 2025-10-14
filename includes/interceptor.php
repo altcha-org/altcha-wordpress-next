@@ -75,6 +75,7 @@ function altcha_interceptor()
   $bypass_ips = $plugin->get_settings("bypassIps");
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
+  $is_login_page = !empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php"));
 
   if (current_user_can("manage_options") || current_user_can("edit_posts")) {
     // Bypass for admins and users with access to the admin section
@@ -86,7 +87,7 @@ function altcha_interceptor()
     return;
   }
 
-  if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login !== true) {
+  if ($is_login_page && $protect_login !== true) {
     // Bypass for login page
     return;
   }
@@ -96,7 +97,7 @@ function altcha_interceptor()
     return;
   }
 
-  if ($plugin->match_patterns($plugin->get_request_path(), $paths_list) === false) {
+  if ($plugin->match_patterns($plugin->get_request_path(), $paths_list) === false && ($protect_login !== true || !$is_login_page)) {
     // Bypass for whitelisted path
     return;
   }

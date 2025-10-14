@@ -6,8 +6,8 @@
  * Description: ALTCHA for WordPress delivers professional, invisible spam protection that works with any form plugin, handles heavy traffic, and keeps your site safe without annoying visitors. With built-in firewall, rate limiting, and GDPR-compliant security, it’s the all-in-one solution for fast, reliable, and privacy-first WordPress protection.
  * Author: Altcha.org
  * Author URI: https://altcha.org
- * Version: 2.0.3
- * Stable tag: 2.0.3
+ * Version: 2.0.4
+ * Stable tag: 2.0.4
  * Requires at least: 5.0
  * Requires PHP: 7.3
  * Tested up to: 6.8
@@ -58,6 +58,7 @@ add_action("admin_menu", "altcha_admin_menu");
 add_action("wp_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("login_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("wp_dashboard_setup", "altcha_add_dashboard_widget");
+add_action("activated_plugin", "altcha_activated_plugin", 10, 2);
 
 add_action("in_plugin_update_message-" . $plugin_file, "altcha_plugin_update_warning", 10, 2);
 add_filter("plugin_action_links_" . $plugin_file, "altcha_plugin_settings_link");
@@ -231,6 +232,7 @@ function altcha_enqueue_interceptor_scripts()
         "invisible" => $invisible,
         "cookiePath" => COOKIEPATH,
         "sitePath" => $plugin->get_site_path(),
+        "protectLogin" => $plugin->get_settings("protectLogin", false),
         "underAttack" => $under_attack,
         "underAttackChallengeUrl" => $plugin->get_challenge_url(array(), true),
       ),
@@ -361,6 +363,11 @@ function altcha_add_dashboard_widget()
       );
     }
   }
+}
+
+function altcha_activated_plugin(string $plugin) {
+  $plugin = AltchaPlugin::$instance;
+  $plugin->set_default_actions_and_paths();
 }
 
 if (!isset(AltchaPlugin::$instance)) {

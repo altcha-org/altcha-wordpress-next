@@ -48,11 +48,15 @@ export async function loginAjax(t: TestController, username: string = ADMIN_USER
 
 export async function login(t: TestController, username: string = ADMIN_USERNAME, password: string = ADMIN_PASSWORD) {
   await t.navigateTo(getUrl('/wp-login.php'));
-  await delay(250);
-  await t.typeText('#user_login', username);
-  await t.typeText('#user_pass', password);
+  await delay(1000);
+  await t.typeText('#user_login', username, {
+    speed: 0.1
+  });
+  await t.typeText('#user_pass', password, {
+    speed: 0.1
+  });
   await t.click(Selector('#wp-submit'));
-  await delay(3000);
+  await delay(4000);
 }
 
 export async function getSettings(t: TestController): Promise<{
