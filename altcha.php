@@ -35,7 +35,9 @@
 
 if (! defined("ABSPATH")) exit;
 
-include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+define("ALTCHA_PLUGIN_VERSION", "2.0.6");
+
+include_once(ABSPATH . "wp-admin/includes/plugin.php");
 
 require plugin_dir_path(__FILE__) . "includes/plugin.php";
 require plugin_dir_path(__FILE__) . "includes/updater.php";
@@ -371,9 +373,7 @@ function altcha_activated_plugin(string $plugin) {
 }
 
 if (!isset(AltchaPlugin::$instance)) {
-  new AltchaPlugin(
-    __FILE__,
-  );
+  new AltchaPlugin();
 }
 
 if (is_admin()) {

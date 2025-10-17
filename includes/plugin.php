@@ -25,7 +25,7 @@ class AltchaPlugin
 {
   public static $instance;
 
-  public static $version = "0.0.0";
+  public static $version = ALTCHA_PLUGIN_VERSION;
 
   public static $option_license = "altcha_license";
 
@@ -89,11 +89,9 @@ class AltchaPlugin
 
   public array|null $verification_data = null;
 
-  public function __construct(string $plugin_file)
+  public function __construct()
   {
-    $plugin_data = get_plugin_data($plugin_file);
     self::$instance = $this;
-    self::$version = $plugin_data["Version"];
     self::$timezones = require plugin_dir_path(__FILE__) . "timezones.php";
     self::$is_ajax =
       (isset($_SERVER["HTTP_X_REQUESTED_WITH"])
