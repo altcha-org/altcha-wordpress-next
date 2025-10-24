@@ -770,7 +770,7 @@ class AltchaPlugin
         $ip_country = $this->get_ip_country();
         $country = $ip_country ?? $this->get_timezone_country($timezone);
       }
-      $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? substr(sanitize_text_field(wp_unslash($_SERVER["HTTP_USER_AGENT"])), 0, 255) : null;
+      $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? substr(sanitize_text_field(wp_unslash($_SERVER["HTTP_USER_AGENT"])), 0, 255) : "";
       $wpdb->insert(
         $table_name,
         array(
@@ -787,7 +787,7 @@ class AltchaPlugin
           "timezone"    => !empty($timezone) ? sanitize_text_field(substr($timezone, 0, 100)) : null,
           "url"         => sanitize_text_field(substr($this->get_current_url(), 0, 255)),
           "user_id"     => get_current_user_id(),
-          "ip_address"  => !empty($ip) ? sanitize_text_field(substr($ip, 0, 45)) : null,
+          "ip_address"  => !empty($ip) ? sanitize_text_field(substr($ip, 0, 45)) : "",
           "user_agent"  => $user_agent,
           "verification_data" => !empty($verification_data) ? json_encode($verification_data) : null,
         ),
