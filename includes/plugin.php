@@ -438,6 +438,7 @@ class AltchaPlugin
       "formidable" => $this->is_plugin_installed("formidable.php"),
       "forminator" => $this->is_plugin_installed("forminator.php"),
       "gravityforms" => $this->is_plugin_installed("gravityforms.php"),
+      "mainwp" => $this->is_plugin_installed("mainwp.php"),
       "metform" => $this->is_plugin_installed("metform.php"),
       "wpdiscuz" => $this->is_plugin_installed("class.WpdiscuzCore.php"),
       "wpforms" => $this->is_plugin_installed("wpforms.php"),

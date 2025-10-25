@@ -47,6 +47,7 @@ function altcha_interceptor()
   );
   $cookie_name = "altcha";
   $script_name = $pagenow;
+  $method = isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : "GET";
   $action = null;
   $form_id = null;
   $payload = null;
@@ -109,6 +110,21 @@ function altcha_interceptor()
     return;
   }
 
+  ////////
+  // MainWP plugin
+  ///////
+  if (class_exists("\MainWP\Child\MainWP_Helper")) {
+    if ($script_name === "admin-ajax.php" && $method === "POST" && empty($action) && isset($_POST["mainwpver"]) && isset($_POST["function"])) {
+      // Bypass for MainWP functions
+      return;
+    }
+    if ($script_name === "index.php" && isset($_GET["mainwpsignature"]) && isset($_GET["user"])) {
+      // Bypass for MainWP site login
+      return;
+    }
+  }
+  ////////
+
   if ($script_name === "admin-ajax.php") {
     $form_id = get_query_var("form_id");
 
@@ -160,7 +176,6 @@ function altcha_interceptor()
         }
         ///////
       }
-
     } else {
       require plugin_dir_path(__FILE__) . "/underattack.php";
       exit;
@@ -168,7 +183,7 @@ function altcha_interceptor()
   }
   ////////
 
-  if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] !== "POST" && $script_name !== "admin-ajax.php") {
+  if ($method !== "POST" && $script_name !== "admin-ajax.php") {
     // Bypass for non-POST requests
     return;
   }
@@ -185,7 +200,7 @@ function altcha_interceptor()
     $payload = sanitize_text_field(wp_unslash($_COOKIE[$cookie_name]));
 
     // Delete used payload cookie
-    setcookie($cookie_name, "", time() - 3600, COOKIEPATH); 
+    setcookie($cookie_name, "", time() - 3600, COOKIEPATH);
   }
 
   // Get payload from the POST data (widget mode)
@@ -248,7 +263,7 @@ function altcha_interceptor()
 
   if (empty($action) && $script_name !== "admin-ajax.php") {
     // Use method as a fallback action name
-    $action = $_SERVER["REQUEST_METHOD"];
+    $action = $method;
   }
 
   if ($verified) {
@@ -269,7 +284,7 @@ function altcha_apply_firewall(string|null $timezone): array
   }
 
   $ip = $plugin->get_ip_address();
-  $ip_country = $plugin->get_ip_country(); 
+  $ip_country = $plugin->get_ip_country();
   $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? sanitize_text_field(wp_unslash($_SERVER["HTTP_USER_AGENT"])) : null;
   $block_countries = $plugin->get_settings("blockCountries", array());
   $block_ips = $plugin->get_settings("blockIps", array());
