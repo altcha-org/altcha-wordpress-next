@@ -179,10 +179,12 @@ function altcha_enqueue_interceptor_scripts()
   $paths = $plugin->get_settings("paths", array());
   $license = $plugin->get_license();
   $admin_user = current_user_can("manage_options") || current_user_can("edit_posts");
+  $bypass_cookies = $plugin->get_settings("bypassCookies");
   $bypass_ips = $plugin->get_settings("bypassIps");
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
   $bypass = $admin_user
     || ($bypass_users && is_user_logged_in())
+    || (is_array($bypass_cookies) && $plugin->match_cookies($bypass_cookies))
     || (is_array($bypass_ips) && $plugin->match_ip($plugin->get_ip_address(), $bypass_ips));
   $under_attack = $plugin->get_under_attack();
   $should_inject = false;
@@ -367,7 +369,8 @@ function altcha_add_dashboard_widget()
   }
 }
 
-function altcha_activated_plugin(string $plugin) {
+function altcha_activated_plugin(string $plugin)
+{
   $plugin = AltchaPlugin::$instance;
   $plugin->set_default_actions_and_paths();
 }

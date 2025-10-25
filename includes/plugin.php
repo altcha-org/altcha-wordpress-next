@@ -825,6 +825,18 @@ class AltchaPlugin
     );
   }
 
+  public function match_cookies(array $cookie_pairs): bool
+  {
+    foreach ($cookie_pairs as $pair) {
+      list($pair_name, $pair_value) = explode("=", $pair, 2);
+      $pair_name = trim($pair_name);
+      $pair_value = trim($pair_value);
+      if (isset($_COOKIE[$pair_name]) && sanitize_text_field(wp_unslash($_COOKIE[$pair_name])) === $pair_value) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public function match_ip(string $ip, array $cidrs_or_ips): bool
   {

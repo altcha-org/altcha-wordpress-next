@@ -73,6 +73,7 @@ function altcha_interceptor()
   $actions_list = $plugin->get_settings("actions", array());
   $paths_list = $plugin->get_settings("paths", array());
   $protect_login = $plugin->get_settings("protectLogin") === true;
+  $bypass_cookies = $plugin->get_settings("bypassCookies");
   $bypass_ips = $plugin->get_settings("bypassIps");
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
@@ -90,6 +91,11 @@ function altcha_interceptor()
 
   if ($is_login_page && $protect_login !== true) {
     // Bypass for login page
+    return;
+  }
+
+  if (is_array($bypass_cookies) && $plugin->match_cookies($bypass_cookies)) {
+    // Bypass for cookie
     return;
   }
 
