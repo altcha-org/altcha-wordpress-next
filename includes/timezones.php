@@ -432,6 +432,7 @@ return array(
   "America/Tortola" => "VG",
   "America/St_Thomas" => "VI",
   "Asia/Ho_Chi_Minh" => "VN",
+  "Asia/Saigon" => "VN",
   "Pacific/Efate" => "VU",
   "Pacific/Wallis" => "WF",
   "Pacific/Apia" => "WS",
