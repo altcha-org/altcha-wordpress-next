@@ -45,12 +45,13 @@ class AltchaPluginUpdater
     }
     $github_data = $this->get_github_data();
     if (is_array($github_data)) {
-      $new_version = preg_replace("/^v/", "", $github_data["tag_name"]);
+      $tag = $github_data["tag_name"];
+      $new_version = preg_replace("/^v/", "", $tag);
       if ($github_data && version_compare($transient->checked[$this->plugin_slug], $new_version, "<")) {
         $plugin_data = array(
           "new_version" => $new_version,
           "url" => $github_data["html_url"],
-          "package" => $github_data["zipball_url"]
+          "package" => "https://codeload.github.com/{$this->username}/{$this->repository}/zip/refs/tags/{$tag}",
         );
 
         if ($this->authorize_token) {

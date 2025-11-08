@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.0.9
-Stable tag: 2.0.9
+Version: 2.0.10
+Stable tag: 2.0.10
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.8
@@ -48,6 +48,10 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.0.10 =
+* Add altcha_inject filter
+* Fix auto-updater issues
 
 = 2.0.9 =
 * Fix: Add missing timezones for geo-location
