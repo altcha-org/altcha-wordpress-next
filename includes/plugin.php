@@ -329,6 +329,7 @@ class AltchaPlugin
     if (in_array("woocommerce", $installed_plugins)) {
       $actions["WooCommerce"] = array(
         "!wc-ajax=*",
+        "!wc-api=*",
         "!*_wc_privacy_cleanup",
       );
     }
