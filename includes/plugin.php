@@ -169,8 +169,8 @@ class AltchaPlugin
   {
     global $wpdb;
     $table_name = $wpdb->prefix . self::$table_events;
-    $tz_offset = $this->get_timezone_offset();
-    $time = $this->get_time_start_end(isset($options["time"]) ? $options["time"] : null);
+    $tz_offset = isset($options["tz_offset"]) ? $options["tz_offset"] : $this->get_timezone_offset();
+    $time = $this->get_time_start_end(isset($options["time"]) ? $options["time"] : null, $tz_offset);
     $time_end = $time["end"];
     $time_start = $time["start"];
     if (!$this->get_license()) {
@@ -182,13 +182,13 @@ class AltchaPlugin
     $events = $wpdb->get_results($wpdb->prepare("
       SELECT 
         event,
-        FLOOR((timestamp_u + %d) / %d) * %d - %d AS time,
+        FLOOR((timestamp_u + %d) / %d) * %d AS time,
         COUNT(*) as count
       FROM $table_name
       $where
       GROUP BY time, event
       ORDER BY time ASC
-    ", [$tz_offset, $time["interval"], $time["interval"], $tz_offset, $time_start, $time_end]));
+    ", [$time["interval"] >= 86_400 ? $tz_offset : 0, $time["interval"], $time["interval"], $time_start, $time_end]));
     $plugins = $wpdb->get_results($wpdb->prepare("
       SELECT 
         plugin,
@@ -215,6 +215,7 @@ class AltchaPlugin
       "plugins" => $plugins,
       "time_start" => $time["start"],
       "time_end" => $time["end"],
+      "tz_offset" => $tz_offset,
     );
   }
 
@@ -596,13 +597,15 @@ class AltchaPlugin
     );
   }
 
-  public function get_time_start_end($time): array
+  public function get_time_start_end($time, $tz_offset = null): array
   {
-    $tz_offset = $this->get_timezone_offset();
+    if ($tz_offset === null) {
+      $tz_offset = $this->get_timezone_offset();
+    }
     $time_range = $this->get_time_range($time);
     $interval = $time === "last_24_hours" ? HOUR_IN_SECONDS : DAY_IN_SECONDS;
     $start = $this->round_time($time_range["start"], $tz_offset, $interval);
-    $end = $this->round_time($time_range["end"], $tz_offset, $interval, false);
+    $end = max($time_range["end"], $this->round_time($time_range["end"], $tz_offset, $interval) + ($interval - 1));
     return array(
       "interval" => $interval,
       "start" => (int) $start,
@@ -1137,7 +1140,7 @@ class AltchaPlugin
     if ($resp["statusCode"] === 200) {
       $json = null;
       try {
-        $json = json_decode($resp["body"], true);
+        $json = json_decode((string) $resp["body"], true);
       } catch (Exception $e) {
         // Parsing error
       }

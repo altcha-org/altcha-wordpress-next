@@ -123,6 +123,7 @@ function altcha_get_analytics_data_ajax()
   wp_send_json_success(
     AltchaPlugin::$instance->get_analytics_data(array(
       "time" => isset($_POST["time"]) ? sanitize_text_field(wp_unslash($_POST["time"])) : null,
+      "tz_offset" => isset($_POST["tzOffset"]) ? (int) sanitize_text_field(wp_unslash($_POST["tzOffset"])) : null,
     )),
   );
 }

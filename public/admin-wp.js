@@ -38,7 +38,7 @@
   const appEl = document.getElementById("altcha-app");
   const api = {
     getAnalyticsData: async (options) => {
-      const { actions, enabled, events, interval, plugins, time_end, time_start } = await callAction('altcha_get_analytics_data', options);
+      const { actions, enabled, events, interval, plugins, time_end, time_start, tz_offset } = await callAction('altcha_get_analytics_data', options);
       if (enabled === false) {
         return null;
       }
@@ -62,6 +62,7 @@
         }),
         timeEnd: +time_end * 1_000, // ms
         timeStart: +time_start * 1_000, // ms
+        tzOffset: +tz_offset * 1_000, // ms
       };
     },
     getEvents: async (options) => {
