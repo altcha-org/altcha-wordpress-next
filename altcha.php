@@ -51,6 +51,8 @@ require plugin_dir_path(__FILE__) . "includes/integrations/elementor.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/formidable.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/gravityforms.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/html-forms.php";
+require plugin_dir_path(__FILE__) . "includes/obfuscation/obfuscateData.php";
+require plugin_dir_path(__FILE__) . "includes/obfuscation/shortcode.php";
 
 register_activation_hook(__FILE__, "altcha_activate");
 register_deactivation_hook(__FILE__, "altcha_deactivate");
@@ -200,6 +202,13 @@ function altcha_enqueue_interceptor_scripts()
   if ($should_inject) {
     $invisible = !empty($license) && $plugin->get_settings("invisible");
     wp_enqueue_script(
+      "altcha-obfuscation",
+      plugin_dir_url(__FILE__) . "public/obfusication.min.js",
+      array(),
+      AltchaPlugin::$version,
+      true
+    );
+    wp_enqueue_script(
       "altcha-widget",
       plugin_dir_url(__FILE__) . "public/altcha.min.js",
       array(),
@@ -251,9 +260,23 @@ function altcha_enqueue_interceptor_scripts()
 function altcha_enqueue_widget_scripts()
 {
   wp_enqueue_script(
+    "altcha-obfuscation",
+    plugin_dir_url(__FILE__) . "public/obfusication.min.js",
+    array(),
+    AltchaPlugin::$version,
+    true
+  );
+  wp_enqueue_script(
     "altcha-widget",
     plugin_dir_url(__FILE__) . "public/altcha.min.js",
     array(),
+    AltchaPlugin::$version,
+    true
+  );
+  wp_enqueue_script(
+    "altcha-obfuscation",
+    plugin_dir_url(__FILE__) . "public/obfusication.min.js",
+    array("altcha-widget"),
     AltchaPlugin::$version,
     true
   );
