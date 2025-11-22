@@ -6,6 +6,9 @@
  * Description: ALTCHA for WordPress delivers professional, invisible spam protection that works with any form plugin, handles heavy traffic, and keeps your site safe without annoying visitors. With built-in firewall, rate limiting, and GDPR-compliant security, it’s the all-in-one solution for fast, reliable, and privacy-first WordPress protection.
  * Author: Altcha.org
  * Author URI: https://altcha.org
+ * GitHub Plugin URI: https://github.com/altcha-org/altcha-wordpress-next
+ * Primary Branch: main
+ * Release Asset: true
  * Version: 2.0.11
  * Stable tag: 2.0.11
  * Requires at least: 5.0
