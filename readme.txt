@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.0.11
-Stable tag: 2.0.11
+Version: 2.1.0
+Stable tag: 2.1.0
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.8
@@ -48,6 +48,12 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.1.0 =
+* Multi-site support
+* Obfuscation shortcode
+* Ability to hide ALTCHA menu item from the sidebar
+* Add meta tags for Git-Updater
 
 = 2.0.11 =
 * Fix analytics timezone mismatch issues
