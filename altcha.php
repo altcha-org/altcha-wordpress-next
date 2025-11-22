@@ -66,6 +66,7 @@ add_action("wp_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("login_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("wp_dashboard_setup", "altcha_add_dashboard_widget");
 add_action("activated_plugin", "altcha_activated_plugin", 10, 2);
+add_action("wpmu_new_blog", "altcha_new_site_handler", 10, 6);
 
 add_action("in_plugin_update_message-" . $plugin_file, "altcha_plugin_update_warning", 10, 2);
 add_filter("plugin_action_links_" . $plugin_file, "altcha_plugin_settings_link");
@@ -78,18 +79,19 @@ add_shortcode("altcha", "altcha_shortcode");
 function altcha_activate()
 {
   $plugin = AltchaPlugin::$instance;
-  $plugin->create_events_table();
-  if (!wp_next_scheduled("altcha_delete_expired_events")) {
-    wp_schedule_event(time(), "daily", "altcha_delete_expired_events");
-  }
-  if (empty($plugin->get_secret())) {
-    update_option(AltchaPlugin::$option_secret, $plugin->random_secret());
-  }
-  if (empty($plugin->get_hashing_secret())) {
-    update_option(AltchaPlugin::$option_hashing_secret, $plugin->random_secret());
-  }
-  if (empty($plugin->get_settings())) {
-    update_option(AltchaPlugin::$option_settings, json_encode($plugin->get_default_settings()));
+  if (is_multisite()) {
+    $sites = get_sites();
+    foreach ($sites as $site) {
+      switch_to_blog($site->blog_id);
+      $plugin->create_events_table();
+      $plugin->create_cron_jobs();
+      $plugin->ensure_default_options();
+      restore_current_blog();
+    }
+  } else {
+    $plugin->create_events_table();
+    $plugin->create_cron_jobs();
+    $plugin->ensure_default_options();
   }
 }
 
@@ -98,9 +100,31 @@ function altcha_activate()
  */
 function altcha_deactivate()
 {
-  $timestamp_events = wp_next_scheduled("altcha_delete_expired_events");
-  if ($timestamp_events) {
-    wp_unschedule_event($timestamp_events, "altcha_delete_expired_events");
+  $plugin = AltchaPlugin::$instance;
+  if (is_multisite()) {
+    $sites = get_sites();
+    foreach ($sites as $site) {
+      switch_to_blog($site->blog_id);
+      $plugin->delete_cron_jobs();
+      restore_current_blog();
+    }
+  } else {
+    $plugin->delete_cron_jobs();
+  }
+}
+
+/**
+ * A new site is added (multi-site setup) 
+ */
+function altcha_new_site_handler($blog_id)
+{
+  if (is_plugin_active_for_network(plugin_basename(__FILE__))) {
+    switch_to_blog($blog_id);
+    $plugin = AltchaPlugin::$instance;
+    $plugin->create_events_table();
+    $plugin->create_cron_jobs();
+    $plugin->ensure_default_options();
+    restore_current_blog();
   }
 }
 

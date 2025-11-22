@@ -149,6 +149,21 @@ class AltchaPlugin
     dbDelta($sql);
   }
 
+  public function create_cron_jobs()
+  {
+    if (!wp_next_scheduled("altcha_delete_expired_events")) {
+      wp_schedule_event(time(), "daily", "altcha_delete_expired_events");
+    }
+  }
+
+  public function delete_cron_jobs()
+  {
+    $timestamp_events = wp_next_scheduled("altcha_delete_expired_events");
+    if ($timestamp_events) {
+      wp_unschedule_event($timestamp_events, "altcha_delete_expired_events");
+    }
+  }
+
   public function delete_expired_events()
   {
     global $wpdb;
@@ -163,6 +178,18 @@ class AltchaPlugin
         time() - ($days * DAY_IN_SECONDS),
       )
     );
+  }
+
+  public function ensure_default_options() {
+    if (get_option(AltchaPlugin::$option_secret) === false) {
+      update_option(AltchaPlugin::$option_secret, $this->random_secret());
+    }
+    if (get_option(AltchaPlugin::$option_hashing_secret) === false) {
+      update_option(AltchaPlugin::$option_hashing_secret, $this->random_secret());
+    }
+    if (get_option(AltchaPlugin::$option_settings) === false) {
+      update_option(AltchaPlugin::$option_settings, json_encode($this->get_default_settings()));
+    }
   }
 
   public function get_analytics_data($options): array
