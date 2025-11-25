@@ -23,8 +23,9 @@ if (! defined("ABSPATH")) exit;
 
 $doing_cron = defined("DOING_CRON") && constant("DOING_CRON");
 $wp_cli = defined("WP_CLI") && constant("WP_CLI");
+$sapi_cli = php_sapi_name() === "cli";
 
-if (!$doing_cron && !$wp_cli) {
+if (!$doing_cron && !$wp_cli && !$sapi_cli) {
   add_action("init", "altcha_interceptor", 1);
 }
 
@@ -78,6 +79,12 @@ function altcha_interceptor()
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
   $is_login_page = !empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php"));
+  $ip_address = $plugin->get_ip_address();
+
+  if (empty($ip_address)) {
+    // Bypass for non-server handlers without IP address, such as CLI or custom handlers
+    return;
+  }
 
   if (current_user_can("manage_options") || current_user_can("edit_posts")) {
     // Bypass for admins and users with access to the admin section
@@ -99,7 +106,7 @@ function altcha_interceptor()
     return;
   }
 
-  if (is_array($bypass_ips) && $plugin->match_ip($plugin->get_ip_address(), $bypass_ips)) {
+  if (is_array($bypass_ips) && $plugin->match_ip($ip_address, $bypass_ips)) {
     // Bypass for whitelisted IPs
     return;
   }

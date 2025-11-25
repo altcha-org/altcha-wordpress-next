@@ -872,6 +872,9 @@ class AltchaPlugin
 
   public function match_ip(string $ip, array $cidrs_or_ips): bool
   {
+    if (empty($ip)) {
+      return false;
+    }
     foreach ($cidrs_or_ips as $cidr_or_ip) {
       if ($ip === $cidr_or_ip) {
         return true;
