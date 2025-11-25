@@ -390,6 +390,7 @@ class AltchaPlugin
       $paths["WooCommerce"] = array(
         $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/checkout"), PHP_URL_PATH)),
         "!" . $this->normalize_path(wp_parse_url(rest_url("/wc/store/v1/*"), PHP_URL_PATH)),
+        "!" . $this->normalize_path("/wc-api/*"),
       );
     }
     if (in_array("real-cookie-banner", $installed_plugins)) {
