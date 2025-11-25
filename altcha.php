@@ -9,8 +9,8 @@
  * GitHub Plugin URI: https://github.com/altcha-org/altcha-wordpress-next
  * Primary Branch: main
  * Release Asset: true
- * Version: 2.1.0
- * Stable tag: 2.1.0
+ * Version: 2.1.1
+ * Stable tag: 2.1.2
  * Requires at least: 5.0
  * Requires PHP: 7.3
  * Tested up to: 6.8
@@ -38,7 +38,7 @@
 
 if (! defined("ABSPATH")) exit;
 
-define("ALTCHA_PLUGIN_VERSION", "2.1.0");
+define("ALTCHA_PLUGIN_VERSION", "2.1.1");
 
 include_once(ABSPATH . "wp-admin/includes/plugin.php");
 
