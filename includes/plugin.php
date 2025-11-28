@@ -180,7 +180,8 @@ class AltchaPlugin
     );
   }
 
-  public function ensure_default_options() {
+  public function ensure_default_options()
+  {
     if (get_option(AltchaPlugin::$option_secret) === false) {
       update_option(AltchaPlugin::$option_secret, $this->random_secret());
     }
@@ -348,6 +349,13 @@ class AltchaPlugin
         "!elementor_js_log",
       );
     }
+    if (in_array("eventprime", $installed_plugins)) {
+      $actions["EventPrime"] = array(
+        "ep_save_event_booking",
+        "!ep_*",
+        "!ep_event_booking_data=*",
+      );
+    }
     if (in_array("forminator", $installed_plugins)) {
       $actions["Forminator"] = array(
         "!forminator_get_nonce",
@@ -381,6 +389,12 @@ class AltchaPlugin
         "*"
       ),
     );
+    if (in_array("eventprime", $installed_plugins)) {
+      $paths["EventPrime"] = array(
+        "!" . $this->normalize_path("/event-organizers/*"),
+        "!" . $this->normalize_path("/venues/*"),
+      );
+    }
     if (in_array("metform", $installed_plugins)) {
       $paths["MetForm"] = array(
         "!" . $this->normalize_path(wp_parse_url(rest_url("/metform/v1/forms/views/*"), PHP_URL_PATH)),
@@ -465,6 +479,7 @@ class AltchaPlugin
       // general
       "elementor" => $this->is_plugin_installed("elementor.php"),
       "elementor-pro" => $this->is_plugin_installed("elementor-pro.php"),
+      "eventprime" => $this->is_plugin_installed("event-prime.php"),
       "formidable" => $this->is_plugin_installed("formidable.php"),
       "forminator" => $this->is_plugin_installed("forminator.php"),
       "gravityforms" => $this->is_plugin_installed("gravityforms.php"),
