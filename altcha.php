@@ -9,11 +9,11 @@
  * GitHub Plugin URI: https://github.com/altcha-org/altcha-wordpress-next
  * Primary Branch: main
  * Release Asset: true
- * Version: 2.1.1
+ * Version: 2.1.2
  * Stable tag: 2.1.2
  * Requires at least: 5.0
  * Requires PHP: 7.3
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * License: END-USER LICENSE AGREEMENT (EULA)
  * License URI: https://altcha.org/docs/v2/wordpress/eula
  *
@@ -38,7 +38,7 @@
 
 if (! defined("ABSPATH")) exit;
 
-define("ALTCHA_PLUGIN_VERSION", "2.1.1");
+define("ALTCHA_PLUGIN_VERSION", "2.1.2");
 
 include_once(ABSPATH . "wp-admin/includes/plugin.php");
 

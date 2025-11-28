@@ -2,11 +2,11 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.1.1
-Stable tag: 2.1.1
+Version: 2.1.2
+Stable tag: 2.1.2
 Requires at least: 5.0
 Requires PHP: 7.3
-Tested up to: 6.8
+Tested up to: 6.9
 License: END-USER LICENSE AGREEMENT (EULA)
 License URI: https://altcha.org/docs/v2/wordpress/eula
 
@@ -48,6 +48,15 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.1.2 =
+* Add EventPrime plugin defaults
+* Add "Tested up to" with WP 6.9
+* Fix minor UI issues
+
+= 2.1.1 =
+* Add WooCommerce default exclusion path !/wc-api/*
+* Fix SAPI CLI bypass
 
 = 2.1.1 =
 * Add WooCommerce default exclusion path !/wc-api/*
