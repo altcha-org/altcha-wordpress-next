@@ -536,6 +536,11 @@ class AltchaPlugin
       }
     }
     $ips = array_values(array_unique($ips));
+    $trusted_proxies = $this->get_settings("trustedProxies", array());
+    if (!empty($trusted_proxies) && !$this->match_ip($normalizedRemoteAddr, $trusted_proxies)) {
+      // Not a trusted proxy, use remote address as fallback
+      $ips = array($normalizedRemoteAddr);
+    }
     if (empty($ips)) {
       self::$ip_address = "127.0.0.1";
     }
