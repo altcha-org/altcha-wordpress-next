@@ -57,6 +57,30 @@ class AltchaPlugin
 
   public static $max_body_size = 4096; // 4kB
 
+  public static $filterable_events_fields = array(
+    "event",
+    "ip_address",
+    "action",
+    "plugin",
+    "reason",
+    "timezone",
+    "user_id",
+    "user_agent",
+    "form_id",
+    "country",
+    "referrer",
+    "url"
+  );
+
+  public static $filterable_events_search_fields = array(
+    "action",
+    "reason",
+    "timezone",
+    "user_agent",
+    "referrer",
+    "url"
+  );
+
   public static $html_espace_allowed_tags = array(
     "altcha-widget" => array(
       "debug" => array(),
@@ -187,16 +211,16 @@ class AltchaPlugin
 
   public function ensure_default_options()
   {
-    if (get_option(AltchaPlugin::$option_secret) === false) {
-      update_option(AltchaPlugin::$option_secret, $this->random_secret());
+    if (get_option(self::$option_secret) === false) {
+      update_option(self::$option_secret, $this->random_secret());
     }
-    if (get_option(AltchaPlugin::$option_hashing_secret) === false) {
-      update_option(AltchaPlugin::$option_hashing_secret, $this->random_secret());
+    if (get_option(self::$option_hashing_secret) === false) {
+      update_option(self::$option_hashing_secret, $this->random_secret());
     }
-    if (get_option(AltchaPlugin::$option_settings) === false) {
-      update_option(AltchaPlugin::$option_settings, json_encode($this->get_default_settings()));
+    if (get_option(self::$option_settings) === false) {
+      update_option(self::$option_settings, json_encode($this->get_default_settings()));
     } else {
-      update_option(AltchaPlugin::$option_settings, json_encode(array_merge(
+      update_option(self::$option_settings, json_encode(array_merge(
         array(
           "eventsLogFailedBody" => false, // Added in 2.2.0
         ),
@@ -462,7 +486,30 @@ class AltchaPlugin
     }
     $where = "WHERE timestamp_u >= %d AND timestamp_u <= %d";
     $params = [$time["start"], $time["end"]];
-    if (!empty($options["event"])) {
+    if (!empty($options["filters"]) && is_array($options["filters"])) {
+      $anonymize_ips = $this->get_settings("eventsAnonymizeIps") === true;
+      foreach ($options["filters"] as $filter_item) {
+        $field = trim($filter_item["field"]);
+        $value = empty($filter_item["value"]) ? null : trim($filter_item["value"]);
+        if (!empty($field) && in_array($field, self::$filterable_events_fields)) {
+          if ($value !== null && $field === "ip_address" && $anonymize_ips) {
+            $value = $this->anonymize_ip($value);
+          }
+          if ($value === null) {
+            $where .= " AND %i IS NULL";
+            $params[] = $field;
+          } else if (in_array($field, self::$filterable_events_search_fields)) {
+            $where .= " AND %i LIKE %s";
+            $params[] = $field;
+            $params[] = "%" . $wpdb->esc_like($value) . "%";
+          } else {
+            $where .= " AND %i = %s";
+            $params[] = $field;
+            $params[] = $value;
+          }
+        }
+      }
+    } else if (!empty($options["event"])) {
       $where .= " AND event = %s";
       $params[] = $options["event"];
     }
@@ -599,7 +646,7 @@ class AltchaPlugin
 
   public function get_request_body(): string
   {
-    $body = file_get_contents("php://input", false, null, 0, AltchaPlugin::$max_body_size);
+    $body = file_get_contents("php://input", false, null, 0, self::$max_body_size);
     if (empty($body)) {
       return json_encode($_POST, JSON_PRETTY_PRINT);
     }
@@ -861,7 +908,7 @@ class AltchaPlugin
           "timestamp"   => current_time("mysql"),
           "timestamp_u" => time(),
           "action"      => !empty($action) ? sanitize_text_field(substr($action, 0, 100)) : null,
-          "body"        => !empty($body) ? sanitize_textarea_field(substr($body, 0, AltchaPlugin::$max_body_size)) : null,
+          "body"        => !empty($body) ? sanitize_textarea_field(substr($body, 0, self::$max_body_size)) : null,
           "country"     => !empty($country) ? sanitize_text_field(strtoupper($country)) : null,
           "event"       => sanitize_text_field(substr($event, 0, 20)),
           "form_id"     => !empty($form_id) ? sanitize_text_field(substr($form_id, 0, 100)) : null,
@@ -1140,7 +1187,7 @@ class AltchaPlugin
       $settings = $this->get_settings();
       $settings["actions"] = array_merge($settings["actions"], $actions_add);
       $settings["paths"] = array_merge($settings["paths"], $paths_add);
-      update_option(AltchaPlugin::$option_settings, json_encode($settings));
+      update_option(self::$option_settings, json_encode($settings));
     }
   }
 

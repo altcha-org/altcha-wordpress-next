@@ -100,9 +100,18 @@ function altcha_set_under_attack_ajax()
 function altcha_get_events_ajax()
 {
   altcha_ajax_check_access();
+  $filters = null;
+  if (isset($_POST["filters"])) {
+    try {
+      $filters = json_decode(sanitize_text_field(wp_unslash($_POST["filters"])), true);
+    } catch (Exception $e) {
+      // Parsing error
+    }
+  }
   wp_send_json_success(
     AltchaPlugin::$instance->get_events(array(
       "event" => isset($_POST["event"]) ? sanitize_text_field(wp_unslash($_POST["event"])) : null,
+      "filters" => $filters,
       "offset" => isset($_POST["offset"]) ? intval($_POST["offset"]) : null,
       "limit" => isset($_POST["limit"]) ? intval($_POST["limit"]) : null,
       "time" => isset($_POST["time"]) ? sanitize_text_field(wp_unslash($_POST["time"])) : null,
