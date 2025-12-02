@@ -223,6 +223,7 @@ class AltchaPlugin
         COUNT(*) as count
       FROM $table_name
       $where
+        AND event != 'bot'
       GROUP BY plugin
       ORDER BY count ASC
     ", [$time_start, $time_end]));
@@ -233,6 +234,7 @@ class AltchaPlugin
         COUNT(*) as count
       FROM $table_name
       $where
+        AND event != 'bot'
       GROUP BY event, action
       ORDER BY count ASC
     ", [$time_start, $time_end]));

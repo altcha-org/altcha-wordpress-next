@@ -222,7 +222,11 @@ function altcha_interceptor()
   }
 
   if (empty($payload)) {
-    return altcha_interceptor_fail("failed", "ALTCHA payload missing.", $action, $form_id);
+    if (empty($action) && $script_name !== "admin-ajax.php") {
+      // Use method as a fallback action name
+      $action = $method;
+    }
+    return altcha_interceptor_fail("bot", "ALTCHA payload missing.", $action, $form_id);
   }
 
   $payload_data = $plugin->parse_payload($payload, $params);
