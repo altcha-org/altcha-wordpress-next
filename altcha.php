@@ -59,6 +59,7 @@ register_deactivation_hook(__FILE__, "altcha_deactivate");
 
 $plugin_file = plugin_basename(__FILE__);
 
+add_action("plugins_loaded", "altcha_plugin_loaded");
 add_filter("plugin_row_meta", "altcha_details_link", 10, 2);
 add_action("altcha_delete_expired_events", "altcha_delete_expired_events_callback");
 add_action("admin_menu", "altcha_admin_menu");
@@ -78,21 +79,7 @@ add_shortcode("altcha", "altcha_shortcode");
  */
 function altcha_activate()
 {
-  $plugin = AltchaPlugin::$instance;
-  if (is_multisite()) {
-    $sites = get_sites();
-    foreach ($sites as $site) {
-      switch_to_blog($site->blog_id);
-      $plugin->create_events_table();
-      $plugin->create_cron_jobs();
-      $plugin->ensure_default_options();
-      restore_current_blog();
-    }
-  } else {
-    $plugin->create_events_table();
-    $plugin->create_cron_jobs();
-    $plugin->ensure_default_options();
-  }
+  altcha_run_migration();
 }
 
 /**
@@ -114,6 +101,19 @@ function altcha_deactivate()
 }
 
 /**
+ * Plugin loaded handler
+ */
+function altcha_plugin_loaded()
+{
+  $plugin = AltchaPlugin::$instance;
+  $db_version = $plugin->get_db_version();
+  if ($db_version === false || version_compare($db_version, ALTCHA_PLUGIN_VERSION, "<")) {
+    altcha_run_migration();
+    update_option(AltchaPlugin::$option_db_version, ALTCHA_PLUGIN_VERSION);
+  }
+}
+
+/**
  * A new site is added (multi-site setup) 
  */
 function altcha_new_site_handler($blog_id)
@@ -125,6 +125,27 @@ function altcha_new_site_handler($blog_id)
     $plugin->create_cron_jobs();
     $plugin->ensure_default_options();
     restore_current_blog();
+  }
+}
+
+/**
+ * Run db migrations
+ */
+function altcha_run_migration() {
+  $plugin = AltchaPlugin::$instance;
+  if (is_multisite()) {
+    $sites = get_sites();
+    foreach ($sites as $site) {
+      switch_to_blog($site->blog_id);
+      $plugin->create_events_table();
+      $plugin->create_cron_jobs();
+      $plugin->ensure_default_options();
+      restore_current_blog();
+    }
+  } else {
+    $plugin->create_events_table();
+    $plugin->create_cron_jobs();
+    $plugin->ensure_default_options();
   }
 }
 

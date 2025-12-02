@@ -27,6 +27,8 @@ class AltchaPlugin
 
   public static $version = ALTCHA_PLUGIN_VERSION;
 
+  public static $option_db_version = "altcha_db_version";
+
   public static $option_license = "altcha_license";
 
   public static $option_hashing_secret = "altcha_hashing_secret";
@@ -52,6 +54,8 @@ class AltchaPlugin
   public static $is_ajax = false;
 
   public static $widget_cdn_url = "https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.2.4/dist/altcha.i18n.min.js";
+
+  public static $max_body_size = 4096; // 4kB
 
   public static $html_espace_allowed_tags = array(
     "altcha-widget" => array(
@@ -127,6 +131,7 @@ class AltchaPlugin
       timestamp datetime NOT NULL,
       timestamp_u bigint(20) NOT NULL,
       action varchar(100),
+      body text,
       country varchar(2),
       event varchar(20) NOT NULL,
       form_id varchar(100),
@@ -190,6 +195,13 @@ class AltchaPlugin
     }
     if (get_option(AltchaPlugin::$option_settings) === false) {
       update_option(AltchaPlugin::$option_settings, json_encode($this->get_default_settings()));
+    } else {
+      update_option(AltchaPlugin::$option_settings, json_encode(array_merge(
+        array(
+          "eventsLogFailedBody" => false, // Added in 2.2.0
+        ),
+        $this->get_settings()
+      )));
     }
   }
 
@@ -323,6 +335,11 @@ class AltchaPlugin
     return home_url($request_uri);
   }
 
+  public function get_db_version(): string
+  {
+    return get_option(self::$option_db_version);
+  }
+
   public function get_default_settings(): array
   {
     return array(
@@ -333,6 +350,7 @@ class AltchaPlugin
       "eventsRetentionDays" => self::$free_max_data_retention_days,
       "eventsLogBlocked" => true,
       "eventsLogChallenges" => true,
+      "eventsLogFailedBody" => false,
       "eventsAnonymizeIps" => true,
       "protectLogin" => true,
     );
@@ -579,6 +597,15 @@ class AltchaPlugin
     return filter_var(sanitize_url(wp_unslash($_SERVER["HTTP_REFERER"])), FILTER_SANITIZE_URL);
   }
 
+  public function get_request_body(): string
+  {
+    $body = file_get_contents("php://input", false, null, 0, AltchaPlugin::$max_body_size);
+    if (empty($body)) {
+      return json_encode($_POST, JSON_PRETTY_PRINT);
+    }
+    return $body;
+  }
+
   public function get_request_path(): string
   {
     $uri = isset($_SERVER["REQUEST_URI"]) ? sanitize_url(wp_unslash($_SERVER["REQUEST_URI"])) : "/";
@@ -811,6 +838,7 @@ class AltchaPlugin
     $analytics_enabled = isset($settings["eventsEnabled"]) && $settings["eventsEnabled"] === true;
     $log_challenges = isset($settings["eventsLogChallenges"]) && $settings["eventsLogChallenges"] === true;
     $log_blocked = isset($settings["eventsLogBlocked"]) && $settings["eventsLogBlocked"] === true;
+    $log_failed_body = isset($settings["eventsLogFailedBody"]) && $settings["eventsLogFailedBody"] === true;
     $anonymize_ips = isset($settings["eventsAnonymizeIps"]) && $settings["eventsAnonymizeIps"] === true;
     if ($analytics_enabled && ($event !== "challenge" || $log_challenges) && ($event !== "blocked" || $log_blocked)) {
       global $wpdb;
@@ -826,12 +854,14 @@ class AltchaPlugin
         $country = $ip_country ?? $this->get_timezone_country($timezone);
       }
       $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? substr(sanitize_text_field(wp_unslash($_SERVER["HTTP_USER_AGENT"])), 0, 255) : "";
+      $body = $log_failed_body && ($event === "failed" || $event === "bot") ? $this->get_request_body() : null;
       $wpdb->insert(
         $table_name,
         array(
           "timestamp"   => current_time("mysql"),
           "timestamp_u" => time(),
           "action"      => !empty($action) ? sanitize_text_field(substr($action, 0, 100)) : null,
+          "body"        => !empty($body) ? sanitize_textarea_field(substr($body, 0, AltchaPlugin::$max_body_size)) : null,
           "country"     => !empty($country) ? sanitize_text_field(strtoupper($country)) : null,
           "event"       => sanitize_text_field(substr($event, 0, 20)),
           "form_id"     => !empty($form_id) ? sanitize_text_field(substr($form_id, 0, 100)) : null,

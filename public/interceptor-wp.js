@@ -41,6 +41,9 @@
     "elementor-pro": {
       actions: ["elementor_pro_forms_send_form"],
     },
+    eventprime: {
+      actions: ["ep_save_event_booking"],
+    },
     formidable: {
       field: "frm_action",
       formIdField: "form_id",
@@ -72,7 +75,7 @@
         request?.body?.formData.match(/"id":"(\d+)"/)?.[1],
     },
     woocommerce: {
-      paths: ["/wc/store/v1/"],
+      paths: ["/wc/store/v1/", "/wc-api/"],
     },
     "wp-comments": {
       paths: ["/wp-comments-post.php"],
