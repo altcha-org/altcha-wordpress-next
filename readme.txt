@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.1.2
-Stable tag: 2.1.2
+Version: 2.2.0
+Stable tag: 2.2.0
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.9
@@ -48,6 +48,12 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.2.0 =
+* Introduced advanced event filtering for logs.
+* Added a new "Bot" event type to differentiate between bot and failed attempts.
+* Added request body logging for failed or bot attempts (can be enabled in Analytics settings).
+* Added "Trusted Proxies" settings to improve security with IP detection from the HTTP_X_FORWARDED_FOR header.
 
 = 2.1.2 =
 * Add EventPrime plugin defaults
