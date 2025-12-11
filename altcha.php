@@ -66,7 +66,6 @@ add_action("admin_menu", "altcha_admin_menu");
 add_action("wp_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("login_enqueue_scripts", "altcha_enqueue_interceptor_scripts");
 add_action("wp_dashboard_setup", "altcha_add_dashboard_widget");
-add_action("activated_plugin", "altcha_activated_plugin", 10, 2);
 add_action("wpmu_new_blog", "altcha_new_site_handler", 10, 6);
 
 add_action("in_plugin_update_message-" . $plugin_file, "altcha_plugin_update_warning", 10, 2);
@@ -464,12 +463,6 @@ function altcha_add_dashboard_widget()
       );
     }
   }
-}
-
-function altcha_activated_plugin(string $plugin)
-{
-  $plugin = AltchaPlugin::$instance;
-  $plugin->set_default_actions_and_paths();
 }
 
 if (!isset(AltchaPlugin::$instance)) {

@@ -1175,22 +1175,6 @@ class AltchaPlugin
     return $down ? floor($local_timestamp / $interval) * $interval : ceil($local_timestamp / $interval) * $interval;
   }
 
-  public function set_default_actions_and_paths()
-  {
-    $actions = $this->get_settings("actions", array());
-    $paths = $this->get_settings("paths", array());
-    $actions_default = array_merge(...array_values($this->get_default_actions()));
-    $paths_default = array_merge(...array_values($this->get_default_paths()));
-    $actions_add = array_values(array_diff($actions_default, $actions));
-    $paths_add = array_values(array_diff($paths_default, $paths));
-    if (count($actions_add) || count($paths_add)) {
-      $settings = $this->get_settings();
-      $settings["actions"] = array_merge($settings["actions"], $actions_add);
-      $settings["paths"] = array_merge($settings["paths"], $paths_add);
-      update_option(self::$option_settings, json_encode($settings));
-    }
-  }
-
   public function store_used_challenge(string $challenge)
   {
     set_transient($this->get_transient_key("ch_" . $challenge), "1", HOUR_IN_SECONDS);
