@@ -306,6 +306,7 @@ function altcha_enqueue_interceptor_scripts()
       ),
     ));
   }
+  altcha_ensure_obfuscation_script_order();
 }
 
 function  altcha_enqueue_obfuscation_scripts()
@@ -344,6 +345,27 @@ function altcha_enqueue_widget_scripts()
     AltchaPlugin::$version,
     true
   );
+}
+
+/**
+ * The obfuscation plugin must be enqueued before the widget.
+ * This function places the obfuscation script before the widget script if both are present.
+ */
+function altcha_ensure_obfuscation_script_order()
+{
+  global $wp_scripts;
+  $queue = $wp_scripts->queue;
+  $widget_script = "altcha-widget"; 
+  $obfuscation_script = "altcha-obfuscation";
+  $widget_index = array_search($widget_script, $queue);
+  $obfuscation_index = array_search($obfuscation_script, $queue);
+  if ($widget_index !== false && $obfuscation_index !== false) {
+    unset($queue[$obfuscation_index]);
+    $queue = array_values($queue);
+    $widget_index = array_search($widget_script, $queue);
+    array_splice($queue, $widget_index, 0, $obfuscation_script);
+    $wp_scripts->queue = $queue;
+  }
 }
 
 /**
