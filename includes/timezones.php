@@ -461,4 +461,18 @@ return array(
   "Atlantic/Faeroe" => "FO",
   "Asia/Istanbul" => "TR",
   "Europe/Tiraspol" => "MD",
+
+  "Asia/Calcutta" => "IN",
+  "Europe/Zaporizhzhia" => "UA",
+  "America/Ensenada" => "US",
+  "Europe/Belfast" => "GB",
+  "Asia/Kashgar" => "CN",
+  "Asia/Chongqing" => "CN",
+  "Asia/Harbin" => "CN",
+  "Asia/Thimbu" => "BT",
+  "Asia/Ujung_Pandang" => "ID",
+  "Pacific/Yap" => "FM",
+  "Pacific/Palmerston" => "CK",
+  "Africa/Timbuktu" => "ML",
+  "Africa/Asmera" => "ER"
 );
