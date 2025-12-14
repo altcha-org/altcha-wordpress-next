@@ -851,6 +851,10 @@ class AltchaPlugin
     $salt = $salt . "?" . http_build_query(array_merge(array(
       "expires" => time() + $expires
     ), $params));
+    // Add a delimiter to prevent parameter splicing
+    if (!str_ends_with($salt, "&")) {
+      $salt .= "&";
+    }
     $range = $this->get_complexity($complexity);
     $secret_number = random_int($range["min"], $range["max"]);
     $challenge = hash("sha256", $salt . $secret_number);
