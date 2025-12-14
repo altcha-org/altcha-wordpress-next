@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.3.0
-Stable tag: 2.3.0
+Version: 2.3.1
+Stable tag: 2.3.1
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.9
@@ -48,6 +48,9 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.3.1 =
+* Fixed possible replay attacks via salt splicing.
 
 = 2.3.0 =
 * Removed enforcement of default actions/paths during other plugins activation to avoid overwriting user configuration
