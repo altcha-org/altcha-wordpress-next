@@ -405,6 +405,16 @@ class AltchaPlugin
         "!forminator_get_nonce",
       );
     }
+    if (in_array("pixelyoursite", $installed_plugins)) {
+      $actions["PixelYourSite"] = array(
+        "!pys_get_pbid",
+      );
+    }
+    if (in_array("translatepress-multilingual", $installed_plugins)) {
+      $actions["TranslatePress"] = array(
+        "!trp_*",
+      );
+    }
     if (in_array("woocommerce", $installed_plugins)) {
       $actions["WooCommerce"] = array(
         "!wc-ajax=*",
@@ -552,6 +562,8 @@ class AltchaPlugin
       "gravityforms" => $this->is_plugin_installed("gravityforms.php"),
       "mainwp" => $this->is_plugin_installed("mainwp.php"),
       "metform" => $this->is_plugin_installed("metform.php"),
+      "pixelyoursite" => $this->is_plugin_installed("pixelyoursite/facebook-pixel-master.php"),
+      "translatepress-multilingual" => $this->is_plugin_installed("translatepress-multilingual/index.php"),
       "wpdiscuz" => $this->is_plugin_installed("class.WpdiscuzCore.php"),
       "wpforms" => $this->is_plugin_installed("wpforms.php"),
       "wp-rocket" => $this->is_plugin_installed("wp-rocket.php"),
