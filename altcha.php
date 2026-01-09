@@ -352,7 +352,7 @@ function altcha_enqueue_widget_scripts()
  */
 function altcha_ensure_obfuscation_script_order()
 {
-  global $wp_scripts;
+  $wp_scripts = wp_scripts();
   $queue = $wp_scripts->queue;
   $widget_script = "altcha-widget"; 
   $obfuscation_script = "altcha-obfuscation";
