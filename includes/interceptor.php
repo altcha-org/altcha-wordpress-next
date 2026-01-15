@@ -235,7 +235,7 @@ function altcha_interceptor()
       // Use method as a fallback action name
       $action = $method;
     }
-    return altcha_interceptor_fail("bot", "ALTCHA malformated payload.", $action, $form_id);
+    return altcha_interceptor_fail("bot", "ALTCHA malformatted payload.", $action, $form_id);
   }
 
   $timezone = isset($params["params_tz"]) ? $params["params_tz"] : null;
