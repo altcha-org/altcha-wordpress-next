@@ -1196,7 +1196,7 @@ class AltchaPlugin
     set_transient($this->get_transient_key("ch_" . $challenge), "1", HOUR_IN_SECONDS);
   }
 
-  public function verify(array|string $payload, array|null &$params = null, string|null $hmac_key = null, bool $store_used = true): bool
+  public function verify(array|string|null $payload, array|null &$params = null, string|null $hmac_key = null, bool $store_used = true): bool
   {
     if ($hmac_key === null) {
       $hmac_key = $this->get_secret();

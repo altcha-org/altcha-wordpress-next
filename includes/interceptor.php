@@ -230,6 +230,14 @@ function altcha_interceptor()
   }
 
   $payload_data = $plugin->parse_payload($payload, $params);
+  if (empty($payload_data)) {
+    if (empty($action) && $script_name !== "admin-ajax.php") {
+      // Use method as a fallback action name
+      $action = $method;
+    }
+    return altcha_interceptor_fail("bot", "ALTCHA malformated payload.", $action, $form_id);
+  }
+
   $timezone = isset($params["params_tz"]) ? $params["params_tz"] : null;
   $interceptor = isset($params["params_interceptor"]) ? $params["params_interceptor"] === "1" : null;
   $plugin_name = isset($params["params_plugin"]) ? $params["params_plugin"] : null;
