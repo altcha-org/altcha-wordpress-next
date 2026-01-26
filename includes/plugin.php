@@ -223,6 +223,7 @@ class AltchaPlugin
       update_option(self::$option_settings, json_encode(array_merge(
         array(
           "eventsLogFailedBody" => false, // Added in 2.2.0
+          "challengeExpiration" => 300, // Added in 2.5.0
         ),
         $this->get_settings()
       )));
@@ -377,6 +378,7 @@ class AltchaPlugin
       "eventsLogFailedBody" => false,
       "eventsAnonymizeIps" => true,
       "protectLogin" => true,
+      "challengeExpiration" => 300,
     );
   }
 
@@ -680,7 +682,8 @@ class AltchaPlugin
   public function get_settings($field = null, $default_value = null)
   {
     if (!$this->settings_json) {
-      $this->settings_json = json_decode(get_option(self::$option_settings, "{}"), true);
+      $settings_json = json_decode(get_option(self::$option_settings, "{}"), true);
+      $this->settings_json = apply_filters("altcha_get_settings", $settings_json);
     }
     if ($field) {
       return isset($this->settings_json[$field]) ? $this->settings_json[$field] : $default_value;
@@ -857,11 +860,14 @@ class AltchaPlugin
       $complexity = "low";
     }
     if ($expires === null) {
-      $expires = 300; // seconds
+      $expires = $this->get_settings("challengeExpiration");
+      if (empty($expires)) {
+        $expires = 300; // seconds
+      }
     }
     $salt = $this->random_secret();
     $salt = $salt . "?" . http_build_query(array_merge(array(
-      "expires" => time() + $expires
+      "expires" => time() + (int) $expires
     ), $params));
     // Add a delimiter to prevent parameter splicing
     if (!str_ends_with($salt, "&")) {
