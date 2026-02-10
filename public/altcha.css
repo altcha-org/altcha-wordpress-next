@@ -55,9 +55,18 @@
   background: none;
   text-decoration: underline;
   border: none;
+  outline: none; 
   cursor: pointer;
   padding: 0;
   font: inherit;
   color: inherit;
+}
+
+.altcha-obfuscation-button:hover {
+  opacity: 0.8;
+}
+
+.altcha-obfuscation-button:active {
+  opacity: 0.6;
 }
 

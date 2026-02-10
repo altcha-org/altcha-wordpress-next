@@ -39,6 +39,7 @@
 if (! defined("ABSPATH")) exit;
 
 define("ALTCHA_PLUGIN_VERSION", "2.5.0");
+define("ALTCHA_PLUGIN_URL", plugin_dir_url(__FILE__));
 
 include_once(ABSPATH . "wp-admin/includes/plugin.php");
 
@@ -51,6 +52,7 @@ require plugin_dir_path(__FILE__) . "includes/integrations/elementor.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/formidable.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/gravityforms.php";
 require plugin_dir_path(__FILE__) . "includes/integrations/html-forms.php";
+require plugin_dir_path(__FILE__) . "includes/integrations/awsmteam.php";
 require plugin_dir_path(__FILE__) . "includes/obfuscation/obfuscation.php";
 require plugin_dir_path(__FILE__) . "includes/obfuscation/shortcode.php";
 

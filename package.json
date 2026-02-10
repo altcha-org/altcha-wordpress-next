@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "build": "npm run build:ts",
+        "watch": "npm run watch:ts",
+        "build:ts": "tsc --build && terser dist/integrations/awsmteam.js -o public/integrations/awsmteam.js && terser dist/integrations/awsmteam-admin.js -o public/integrations/awsmteam-admin.js",
+        "watch:ts": "tsc --watch --outDir public"
+    },
+    "devDependencies": {
+        "terser": "^5.46.0",
+        "typescript": "^5.9.3"
+    }
+}

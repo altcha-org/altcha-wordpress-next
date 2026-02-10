@@ -1,0 +1,21 @@
+#altcha-obfuscation-label[readonly] {
+    background-color: #f6f7f7;
+    cursor: not-allowed;
+}
+
+#altcha-obfuscation-settings {
+    margin-bottom: 15px;
+}
+
+#altcha-obfuscation-settings table {
+    margin: 0;
+    width: 100%;
+    border: 0.5px solid #dcdcde;
+    border-spacing: 0;
+    background-color: #f6f7f7;
+}
+
+#altcha-obfuscation-settings table td {
+    border: 0.5px solid #ccc;
+    padding: 10px;
+}
