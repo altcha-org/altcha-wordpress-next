@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.5.0
-Stable tag: 2.5.0
+Version: 2.6.0
+Stable tag: 2.6.0
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.9
@@ -48,6 +48,12 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.6.0 =
+* Added option to bypass verification by User-Agent
+* Added Independent Analytics and Optimization Detective default paths
+* Fixed PHP warning in IP address detection
+* Fixed ModSecurity false positives when saving settings [#24]
 
 = 2.5.0 =
 * Added option to configure challenge expiration
