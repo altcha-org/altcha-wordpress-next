@@ -244,9 +244,11 @@ function altcha_enqueue_interceptor_scripts()
   $bypass_cookies = $plugin->get_settings("bypassCookies");
   $bypass_ips = $plugin->get_settings("bypassIps");
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
+  $bypass_user_agents = $plugin->get_settings("bypassUserAgents");
   $bypass = $admin_user
     || ($bypass_users && is_user_logged_in())
     || (is_array($bypass_cookies) && $plugin->match_cookies($bypass_cookies))
+    || (is_array($bypass_user_agents) && $plugin->match_user_agent($bypass_user_agents))
     || (is_array($bypass_ips) && $plugin->match_ip($plugin->get_ip_address(), $bypass_ips));
   $under_attack = $plugin->get_under_attack();
   $should_inject = false;

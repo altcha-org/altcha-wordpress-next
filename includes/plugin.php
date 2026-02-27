@@ -1062,6 +1062,20 @@ class AltchaPlugin
     return $matched;
   }
 
+  public function match_user_agent(array $user_agents): bool
+  {
+    $ua = $_SERVER["HTTP_USER_AGENT"] ?? "";
+    if (empty($ua)) {
+      return false;
+    }
+    foreach ($user_agents as $user_agent) {
+      if (stripos($ua, $user_agent) !== false) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public function normalize_path(string $uri): string
   {
     $site_path = wp_parse_url(site_url(), PHP_URL_PATH);

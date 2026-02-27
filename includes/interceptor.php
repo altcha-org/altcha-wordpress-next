@@ -77,6 +77,7 @@ function altcha_interceptor()
   $bypass_cookies = $plugin->get_settings("bypassCookies");
   $bypass_ips = $plugin->get_settings("bypassIps");
   $bypass_users = $plugin->get_settings("bypassUsers") === true;
+  $bypass_user_agents = $plugin->get_settings("bypassUserAgents");
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
   $is_login_page = !empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php"));
   $ip_address = $plugin->get_ip_address();
@@ -103,6 +104,11 @@ function altcha_interceptor()
 
   if (is_array($bypass_cookies) && $plugin->match_cookies($bypass_cookies)) {
     // Bypass for cookie
+    return;
+  }
+
+  if (is_array($bypass_user_agents) && $plugin->match_user_agent($bypass_user_agents)) {
+    // Bypass for User-Agent
     return;
   }
 
