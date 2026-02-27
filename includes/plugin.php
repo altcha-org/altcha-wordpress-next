@@ -620,10 +620,12 @@ class AltchaPlugin
       // Not a trusted proxy, use remote address as fallback
       $ips = array($normalizedRemoteAddr);
     }
-    if (empty($ips)) {
+    if (empty($ips) || empty($ips[0])) {
       self::$ip_address = "127.0.0.1";
+    } else {
+      self::$ip_address = $ips[0];
     }
-    self::$ip_address = apply_filters("altcha_get_ip_address", $ips[0]);
+    self::$ip_address = apply_filters("altcha_get_ip_address", self::$ip_address);
     return self::$ip_address;
   }
 
