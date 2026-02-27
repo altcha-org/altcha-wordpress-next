@@ -12,7 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/minimatch": "^5.1.2",
-    "testcafe": "^3.7.2",
+    "baseline-browser-mapping": "^2.10.0",
+    "testcafe": "^3.7.4",
     "typescript": "^5.9.3"
   },
   "overrides": {
