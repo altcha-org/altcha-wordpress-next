@@ -451,9 +451,20 @@ class AltchaPlugin
         "!" . $this->normalize_path("/venues/*"),
       );
     }
+    if (in_array("independent-analytics", $installed_plugins)) {
+      $paths["Independent Analytics"] = array(
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/iawp/*"), PHP_URL_PATH)),
+      );
+    }
     if (in_array("metform", $installed_plugins)) {
       $paths["MetForm"] = array(
         "!" . $this->normalize_path(wp_parse_url(rest_url("/metform/v1/forms/views/*"), PHP_URL_PATH)),
+      );
+    }
+    if (in_array("optimization-detective", $installed_plugins)) {
+      $paths["Optimization Detective"] = array(
+        "!" . $this->normalize_path("/optimization-detective/*"),
+        "!" . $this->normalize_path(wp_parse_url(rest_url("/optimization-detective/*"), PHP_URL_PATH)),
       );
     }
     if (in_array("woocommerce", $installed_plugins)) {
@@ -562,8 +573,10 @@ class AltchaPlugin
       "formidable" => $this->is_plugin_installed("formidable.php"),
       "forminator" => $this->is_plugin_installed("forminator.php"),
       "gravityforms" => $this->is_plugin_installed("gravityforms.php"),
+      "independent-analytics" => $this->is_plugin_installed("independent-analytics/iawp.php"),
       "mainwp" => $this->is_plugin_installed("mainwp.php"),
       "metform" => $this->is_plugin_installed("metform.php"),
+      "optimization-detective" => $this->is_plugin_installed("optimization-detective/load.php"),
       "pixelyoursite" => $this->is_plugin_installed("pixelyoursite/facebook-pixel-master.php"),
       "translatepress-multilingual" => $this->is_plugin_installed("translatepress-multilingual/index.php"),
       "wpdiscuz" => $this->is_plugin_installed("class.WpdiscuzCore.php"),
