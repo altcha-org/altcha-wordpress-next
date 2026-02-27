@@ -76,7 +76,8 @@
     setSettings: async (data) => {
       const body = new FormData();
       body.append('action', 'altcha_set_settings');
-      body.append('data', JSON.stringify(data));
+      // Base64 avoids ModSecurity false positive (rule 981255) on "! in actions/paths
+      body.append('data_b64', btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
       const resp = await fetch(ajaxurl, {
         body,
         method: 'POST',

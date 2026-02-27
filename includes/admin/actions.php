@@ -56,12 +56,20 @@ function altcha_get_settings_ajax()
 function altcha_set_settings_ajax()
 {
   altcha_ajax_check_access();
-  if (!isset($_POST["data"])) {
+  if (!isset($_POST["data"]) && !isset($_POST["data_b64"])) {
     wp_send_json_error("No data received", 400);
     return;
   }
 
-  $json_data = stripslashes(sanitize_text_field(wp_unslash($_POST["data"])));
+  if (isset($_POST["data_b64"])) {
+    $json_data = base64_decode(str_replace(" ", "+", sanitize_text_field(wp_unslash($_POST["data_b64"]))), true);
+    if ($json_data === false) {
+      wp_send_json_error("Invalid base64 data", 400);
+      return;
+    }
+  } else {
+    $json_data = stripslashes(sanitize_text_field(wp_unslash($_POST["data"])));
+  }
   $data = json_decode($json_data, true);
 
   if (json_last_error() !== JSON_ERROR_NONE) {
