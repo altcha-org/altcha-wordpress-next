@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.6.0
-Stable tag: 2.6.0
+Version: 2.6.1
+Stable tag: 2.6.1
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.9
@@ -48,6 +48,10 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.6.1 =
+* Fix auto-updated and wp cli warning
+* Fix interceptor - handle invalid GET requests with content-type headers
 
 = 2.6.0 =
 * Added option to bypass verification by User-Agent
