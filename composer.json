@@ -1,0 +1,17 @@
+{
+    "name": "altcha-org/altcha-wordpress-next",
+    "autoload": {
+        "psr-4": {
+            "AltchaOrg\\AltchaWordpress\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Regeci",
+            "email": "536331+ovx@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "altcha-org/altcha": "^2.0"
+    }
+}
