@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.0.0
-Stable tag: 3.0.0
+Version: 3.0.1
+Stable tag: 3.0.1
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 6.9
@@ -47,6 +47,9 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.0.1 =
+* Fix: WP Login protection with custom action (compatibility with other login protection plugins)
 
 = 3.0.0 =
 * BREAKING: Requires PHP 8.1 or higher
