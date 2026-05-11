@@ -83,6 +83,7 @@ function altcha_interceptor()
   $bypass_user_agents = $plugin->get_settings("bypassUserAgents");
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
   $is_login_page = !empty($script_name) && $script_name === "wp-login.php";
+  $is_login_action = $is_login_page && empty($_GET["action"]) && empty($_POST["action"]);
   $is_comments_page = !empty($script_name) && $script_name === "wp-comments-post.php";
   $is_password_reset = $is_login_page && !empty($_GET["action"]) && sanitize_text_field($_GET["action"]) === "lostpassword";
   $is_registration = (!empty($script_name) && $script_name === "wp-register.php") || ($is_login_page && !empty($_GET["action"]) && sanitize_text_field($_GET["action"]) === "register");
@@ -113,7 +114,7 @@ function altcha_interceptor()
     return;
   }
 
-  if ($is_login_page && !$is_registration && !$is_password_reset && $protect_login !== true) {
+  if ($is_login_action && !$is_registration && !$is_password_reset && $protect_login !== true) {
     // Bypass for login page
     return;
   }
@@ -220,7 +221,7 @@ function altcha_interceptor()
   if (
     $action === false
     && $path_matched === false
-    && ($protect_login !== true || !$is_login_page)
+    && ($protect_login !== true || !$is_login_action)
     && ($protect_comments !== true || !$is_comments_page)
     && ($protect_registration !== true || !$is_registration)
     && ($protect_password_reset !== true || !$is_password_reset)
@@ -233,7 +234,7 @@ function altcha_interceptor()
     $action = "register";
   } else if ($action === false && $is_password_reset) {
     $action = "lostpassword";
-  } else if ($action === false && $is_login_page) {
+  } else if ($action === false && $is_login_action) {
     $action = "login";
   }
 
