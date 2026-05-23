@@ -9,11 +9,11 @@
  * GitHub Plugin URI: https://github.com/altcha-org/altcha-wordpress-next
  * Primary Branch: main
  * Release Asset: true
- * Version: 3.0.1
- * Stable tag: 3.0.1
+ * Version: 3.0.2
+ * Stable tag: 3.0.2
  * Requires at least: 5.0
  * Requires PHP: 8.1
- * Tested up to: 6.9
+ * Tested up to: 7.0
  * License: END-USER LICENSE AGREEMENT (EULA)
  * License URI: https://altcha.org/docs/v2/wordpress/eula
  *

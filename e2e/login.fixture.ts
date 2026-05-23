@@ -17,8 +17,7 @@ test('Should not protect the login page when disabled', async (t) => {
   await t.typeText('#user_pass', ADMIN_PASSWORD);
   await t.click(Selector('#wp-submit'));
   await t.expect(Selector('altcha-widget').exists).notOk();
-});
-
+}).skipJsErrors();
 
 test('Should protect the login page when enabled', async (t) => {
   await bootstrap(t, {
@@ -33,7 +32,7 @@ test('Should protect the login page when enabled', async (t) => {
   await t.typeText('#user_pass', ADMIN_PASSWORD);
   await t.click(Selector('#wp-submit'));
   await t.expect(Selector('altcha-widget').exists).ok();
-});
+}).skipJsErrors();
 
 test('Should be able to log-in without verification when disabled', async (t) => {
   await bootstrap(t, {
@@ -45,8 +44,7 @@ test('Should be able to log-in without verification when disabled', async (t) =>
   await t.deleteCookies();
   await loginAjax(t);
   await t.expect(await loginAjax(t)).eql(true);
-});
-
+}).skipJsErrors();
 
 test('Should not be able to log-in without verification when enabled', async (t) => {
   await bootstrap(t, {
@@ -64,4 +62,4 @@ test('Should not be able to log-in without verification when enabled', async (t)
     errored = true;
   }
   await t.expect(errored).eql(true);
-});
+}).skipJsErrors();

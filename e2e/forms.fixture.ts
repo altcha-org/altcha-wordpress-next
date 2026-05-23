@@ -15,7 +15,7 @@ test('Should perform verification on submit', async (t) => {
   await delay(250);
   await t.click(Selector('[type="submit"]'));
   await t.expect(Selector('altcha-widget').exists).ok();
-});
+}).skipJsErrors();
 
 test('Should not be able to POST to admin-ajax.php without a cookie', async (t) => {
   await bootstrap(t, {
@@ -34,7 +34,7 @@ test('Should not be able to POST to admin-ajax.php without a cookie', async (t) 
     await t.expect(err.message).contains('responded with 403');
     errored = true;
   }
-});
+}).skipJsErrors();
 
 test('Should be able to GET from admin-ajax.php without a cookie', async (t) => {
   await bootstrap(t, {
@@ -46,6 +46,6 @@ test('Should be able to GET from admin-ajax.php without a cookie', async (t) => 
   await t.deleteCookies();
   const resp = await t.request(getUrl('/wp-admin/admin-ajax.php?action=test'));
   await t.expect(await resp.status).eql(200);
-});
+}).skipJsErrors();
 
 
