@@ -344,7 +344,7 @@ class AltchaPlugin
     return apply_filters("altcha_get_challenge_url", $challenge_url);
   }
 
-  public function get_challenge_options(int|null $expires = null, array $params, string|int|null $complexity): CreateChallengeOptions
+  public function get_challenge_options(int|null $expires, array $params, string|int|null $complexity): CreateChallengeOptions
   {
     $algo = $this->get_settings("powAlgorithm");
     $range = $this->get_complexity($complexity);
