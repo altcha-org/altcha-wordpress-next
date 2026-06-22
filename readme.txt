@@ -48,6 +48,10 @@ Download and install the plugin manually:
 
 == Changelog ==
 
+= 3.0.3 =
+* ALTCHA Widget updated to 3.1.0
+* Fix: deprecation notice [#31]
+
 = 3.0.2 =
 * Add "Tested up to" with WP 7.0
 * ALTCHA Widget updated to 3.0.10
