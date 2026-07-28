@@ -65,7 +65,7 @@ class AltchaPlugin
 
   public static $is_ajax = false;
 
-  public static $widget_cdn_url = "https://cdn.jsdelivr.net/gh/altcha-org/altcha@2.2.4/dist/altcha.i18n.min.js";
+  public static $widget_cdn_url = "https://cdn.jsdelivr.net/gh/altcha-org/altcha@3.2.1/dist/main/altcha.i18n.min.js";
 
   public static $max_body_size = 4096; // 4kB
 
@@ -1329,8 +1329,10 @@ class AltchaPlugin
   public function verify_sentinel_signature(array $data, array &$params): bool
   {
     $url = $this->get_settings("sentinelUrl");
+    $secret = $this->get_settings("sentinelSecret");
     $resp = $this->make_request("POST", str_replace("/v1/challenge", "/v1/verify/signature", $url), json_encode(array(
-      "payload" => $data
+      "payload" => $data,
+      "secret" => $secret
     )));
     if ($resp["statusCode"] === 200) {
       $json = null;

@@ -489,34 +489,6 @@ function altcha_interceptor_detect_action(array $patterns, string $default_actio
   return $matched;
 }
 
-// Supports custom action names using pattern `{field_name}={value}`
-/*
-function altcha_interceptor_detect_action(array $patterns, string $default_action_name = "action")
-{
-  $name = "";
-  $matched = false;
-  foreach ($patterns as $pattern) {
-    $name = "action";
-    $isNegation = str_starts_with($pattern, "!");
-    $cleanPattern = $isNegation ? substr($pattern, 1) : $pattern;
-    if (strpos($cleanPattern, "=") > 0) {
-      $parts = explode("=", $cleanPattern);
-      $name = $parts[0];
-      $cleanPattern = $parts[1];
-    }
-    $regex = "/^" . str_replace("\*", ".*", preg_quote($cleanPattern, "/")) . "$/i";
-    $value = isset($_POST[$name]) ? sanitize_text_field(wp_unslash($_POST[$name])) : (isset($_GET[$name]) ? sanitize_text_field(wp_unslash($_GET[$name])) : "");
-    if (($name === $default_action_name || !empty($value)) && preg_match($regex, $value)) {
-      if ($isNegation) {
-        return false;
-      }
-      $matched = $name === $default_action_name ? $value : $name . "=" . $value;
-    }
-  }
-  return $matched;
-}
-*/
-
 function altcha_interceptor_fail(string $event, string $reason, string|null $action = null, string|null $form_id = null, string|null $timezone = null, bool|null $interceptor = false, string|null $plugin_name = null, array|null $verification_data = null)
 {
   $plugin = AltchaPlugin::$instance;
