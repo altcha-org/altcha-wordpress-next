@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.0.2
-Stable tag: 3.0.2
+Version: 3.1.0
+Stable tag: 3.1.0
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -47,6 +47,11 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.1.0 =
+* New: support for secret key with Sentinel verification
+* ALTCHA library updated to 2.1.0
+* ALTCHA Widget updated to 3.2.1
 
 = 3.0.4 =
 * ALTCHA library updated to 2.0.3
