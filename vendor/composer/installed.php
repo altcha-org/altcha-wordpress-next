@@ -3,7 +3,7 @@
         'name' => 'altcha-org/altcha-wordpress-next',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0db67a39ce7c5e245c7d6d5ab422503b647febe2',
+        'reference' => '10f80a8b632bcd8fb8b7ec051c2f4642a9c0550f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'altcha-org/altcha' => array(
-            'pretty_version' => 'v2.0.3',
-            'version' => '2.0.3.0',
-            'reference' => '8b02ad2c9b82998613bac4d093517d457061cbbe',
+            'pretty_version' => 'v2.1.0',
+            'version' => '2.1.0.0',
+            'reference' => '63038786ae51b572f8f1de5a29079bea5971dd84',
             'type' => 'library',
             'install_path' => __DIR__ . '/../altcha-org/altcha',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'altcha-org/altcha-wordpress-next' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0db67a39ce7c5e245c7d6d5ab422503b647febe2',
+            'reference' => '10f80a8b632bcd8fb8b7ec051c2f4642a9c0550f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
