@@ -37,6 +37,8 @@ function altcha_ajax_check_access()
   if (!current_user_can("manage_options")) {
     wp_die("Unauthorized", 401);
   }
+
+  check_ajax_referer("altcha_admin_ajax", "nonce");
 }
 
 function altcha_get_settings_ajax()

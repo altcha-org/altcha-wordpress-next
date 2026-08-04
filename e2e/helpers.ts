@@ -1,4 +1,4 @@
-import { Selector } from "testcafe";
+import { ClientFunction, Selector } from "testcafe";
 
 export const BASE_URL = 'http://localhost:8888/wordpress';
 
@@ -60,57 +60,65 @@ export async function login(t: TestController, username: string = ADMIN_USERNAME
   await delay(4000);
 }
 
-export async function getSettings(t: TestController): Promise<{
+const getPluginDataNonce = ClientFunction(() => (window as any).pluginData?.altcha?.nonce);
+
+export async function getAdminNonce(t: TestController): Promise<string> {
+  await t.navigateTo(getUrl('/wp-admin/admin.php?page=altcha'));
+  await delay(1500);
+  const nonce = await getPluginDataNonce();
+  if (!nonce) {
+    throw new Error('Could not read admin ajax nonce from pluginData.');
+  }
+  return nonce;
+}
+
+// admin-ajax.php requires the WordPress auth cookie (httpOnly), which TestCafe's
+// t.request() does not reliably forward. Real in-page fetch() carries it correctly
+// (same mechanism admin-wp.js itself uses), so ajax calls run in the browser context.
+const browserAjax = ClientFunction((params: Record<string, string>, method: string) => {
+  const w = window as any;
+  const query = new URLSearchParams(params).toString();
+  const url = method === 'GET' ? `${w.ajaxurl}?${query}` : w.ajaxurl;
+  const options: RequestInit = { method };
+  if (method === 'POST') {
+    options.body = new URLSearchParams(params);
+  }
+  return fetch(url, options).then((r) => r.text().then((text) => ({ status: r.status, text })));
+});
+
+async function ajaxWithNonce(params: Record<string, string>, method: 'GET' | 'POST' = 'POST'): Promise<any> {
+  const { status, text } = await browserAjax(params, method);
+  if (status >= 400) {
+    throw new Error(`Server responded with ${status}.`);
+  }
+  return JSON.parse(text);
+}
+
+export async function getSettings(t: TestController, nonce: string): Promise<{
   defaults: Record<string, any>;
   settings: Record<string, any>;
 }> {
-  const resp = await t.request(getUrl('/wp-admin/admin-ajax.php?action=altcha_get_settings'), {
-    withCredentials: true,
-  });
-  const status = await resp.status;
-  if (status >= 400) {
-    throw new Error(`Server responded with ${status}.`);
-  }
-  const body = await resp.body as any;
+  const body = await ajaxWithNonce({
+    action: 'altcha_get_settings',
+    nonce,
+  }, 'GET');
   return body?.data;
 }
 
-export async function setSettings(t: TestController, data: object): Promise<object> {
-  const resp = await t.request(getUrl('/wp-admin/admin-ajax.php'), {
-    body: new URLSearchParams({
-      action: 'altcha_set_settings',
-      data: JSON.stringify(data),
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    method: 'POST',
-    withCredentials: true,
+export async function setSettings(t: TestController, data: object, nonce: string): Promise<object> {
+  return ajaxWithNonce({
+    action: 'altcha_set_settings',
+    data: JSON.stringify(data),
+    nonce,
   });
-  const status = await resp.status;
-  if (status >= 400) {
-    throw new Error(`Server responded with ${status}.`);
-  }
-  return resp.body as object;
 }
 
-export async function setUnderAttack(t: TestController, level: number): Promise<object> {
-  const resp = await t.request(getUrl('/wp-admin/admin-ajax.php'), {
-    body: new URLSearchParams({
-      action: 'altcha_set_under_attack',
-      under_attack: String(level),
-    }),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    method: 'POST',
-    withCredentials: true,
+export async function setUnderAttack(t: TestController, level: number, nonce: string): Promise<object> {
+  return ajaxWithNonce({
+    action: 'altcha_set_under_attack',
+    under_attack: String(level),
+    nonce,
   });
-  const status = await resp.status;
-  if (status >= 400) {
-    throw new Error(`Server responded with ${status}.`);
-  }
-  return resp.body as object;
 }
 
 export async function bootstrap(t: TestController, options: {
@@ -118,11 +126,12 @@ export async function bootstrap(t: TestController, options: {
   underAttack: number;
 }) {
   await login(t);
-  const { defaults } = await getSettings(t);
+  const nonce = await getAdminNonce(t);
+  const { defaults } = await getSettings(t, nonce);
   await setSettings(t, {
     ...defaults,
     ...options.settings,
-  });
-  await setUnderAttack(t, options.underAttack);
+  }, nonce);
+  await setUnderAttack(t, options.underAttack, nonce);
   await t.deleteCookies();
 }
