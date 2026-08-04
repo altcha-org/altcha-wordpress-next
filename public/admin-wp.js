@@ -23,6 +23,7 @@
   async function callAction(action, options = {}) {
     const data = new FormData();
     data.append('action', action);
+    data.append('nonce', config.nonce);
     for (const option in options) {
       data.append(option, options[option]);
     }
@@ -69,13 +70,14 @@
       return callAction('altcha_get_events', options);
     },
     getSettings: async () => {
-      const resp = await fetch(ajaxurl + '?action=altcha_get_settings');
+      const resp = await fetch(ajaxurl + '?action=altcha_get_settings&nonce=' + encodeURIComponent(config.nonce));
       const json = await resp.json();
       return json.data;
     },
     setSettings: async (data) => {
       const body = new FormData();
       body.append('action', 'altcha_set_settings');
+      body.append('nonce', config.nonce);
       // Base64 avoids ModSecurity false positive (rule 981255) on "! in actions/paths
       body.append('data_b64', btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
       const resp = await fetch(ajaxurl, {
@@ -87,6 +89,7 @@
     setLicense: async (license) => {
       const body = new FormData();
       body.append('action', 'altcha_set_license');
+      body.append('nonce', config.nonce);
       if (license) {
         body.append('license', license);
       }
@@ -99,6 +102,7 @@
     setUnderAttack: async (level) => {
       const body = new FormData();
       body.append('action', 'altcha_set_under_attack');
+      body.append('nonce', config.nonce);
       if (level) {
         body.append('under_attack', level);
       }

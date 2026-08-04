@@ -222,6 +222,7 @@ function altcha_admin_page_content()
       "installedPlugins" => $plugin->get_installed_plugins(),
       "license" => $plugin->get_license(),
       "underAttack" => $plugin->get_under_attack(),
+      "nonce" => wp_create_nonce("altcha_admin_ajax"),
     ),
   ));
 
@@ -443,6 +444,7 @@ function altcha_dashboard_widget_callback()
     "altcha" => array(
       "pluginUrl" => admin_url("admin.php?page=altcha"),
       "underAttack" => AltchaPlugin::$instance->get_under_attack(),
+      "nonce" => wp_create_nonce("altcha_admin_ajax"),
     ),
   ));
   echo "<div id=\"altcha-dashboard-widget\" style=\"display:flex;flex-direction:column;min-height:250px\"><div>Loading...</div></div>";
