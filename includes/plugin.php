@@ -1321,7 +1321,7 @@ class AltchaPlugin
     $alg_ok = ($data["algorithm"] === "SHA-256");
     $calculated_hash = hash("sha256", $data["verificationData"], true);
     $calculated_signature = hash_hmac("sha256", $calculated_hash, $hmac_key);
-    $signature_ok = ($data["signature"] === $calculated_signature);
+    $signature_ok = is_string($data["signature"]) && hash_equals($calculated_signature, $data["signature"]);
     $verified = ($alg_ok && $signature_ok);
     return $verified;
   }
@@ -1361,9 +1361,9 @@ class AltchaPlugin
     }
     $alg_ok = ($data["algorithm"] === "SHA-256");
     $calculated_challenge = hash("sha256", $data["salt"] . $data["number"]);
-    $challenge_ok = ($data["challenge"] === $calculated_challenge);
+    $challenge_ok = is_string($data["challenge"]) && hash_equals($calculated_challenge, $data["challenge"]);
     $calculated_signature = hash_hmac("sha256", $data["challenge"], $hmac_key);
-    $signature_ok = ($data["signature"] === $calculated_signature);
+    $signature_ok = is_string($data["signature"]) && hash_equals($calculated_signature, $data["signature"]);
     $verified = ($alg_ok && $challenge_ok && $signature_ok);
     return $verified;
   }
