@@ -863,7 +863,7 @@ class AltchaPlugin
 
   public function random_secret(): string
   {
-    return bin2hex(random_bytes(12));
+    return bin2hex(random_bytes(32));
   }
 
   public function generate_challenge(string|null $hmac_key = null, string|int|null $complexity = null, int|null $expires = null, array $params = array()): array
