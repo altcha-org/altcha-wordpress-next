@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 2.6.1
-Stable tag: 2.6.1
+Version: 2.7.0
+Stable tag: 2.7.0
 Requires at least: 5.0
 Requires PHP: 7.3
 Tested up to: 6.9
@@ -48,6 +48,12 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 2.7.0 =
+* Fix: nonce issue across admin AJAX endpoints
+* Fix: use hash_equals in verification functions for constant-time comparison
+* Fix: random_secret default size to 32 bytes
+* Fix: rate limiter concurrency, algo changed from rolling window to fixed window
 
 = 2.6.1 =
 * Fix auto-updated and wp cli warning
