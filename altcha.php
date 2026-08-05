@@ -9,8 +9,8 @@
  * GitHub Plugin URI: https://github.com/altcha-org/altcha-wordpress-next
  * Primary Branch: main
  * Release Asset: true
- * Version: 3.1.0
- * Stable tag: 3.1.0
+ * Version: 3.2.0
+ * Stable tag: 3.2.0
  * Requires at least: 5.0
  * Requires PHP: 8.1
  * Tested up to: 7.0
@@ -38,7 +38,7 @@
 
 if (! defined("ABSPATH")) exit;
 
-define("ALTCHA_PLUGIN_VERSION", "3.1.0");
+define("ALTCHA_PLUGIN_VERSION", "3.2.0");
 
 $autoload_path = __DIR__ . "/vendor/autoload.php";
 
