@@ -1179,44 +1179,55 @@ class AltchaPlugin
 
   public function rate_limit(int $limit, int $interval_seconds, string|null $key = null): array
   {
+    global $wpdb;
     if ($key === null) {
       $key = $this->get_ip_address();
     }
-    $transient_key = $this->get_transient_key("rt_" . $limit . "_" . $interval_seconds . sha1($key));
-    $data = get_transient($transient_key);
-    if ($data === false) {
-      // first request in this interval
-      $data = array(
-        "count" => 1,
-        "reset_time" => time() + $interval_seconds
-      );
-      set_transient($transient_key, $data, $interval_seconds);
-      return array(
-        "data" => $data,
-        "exceeded" => false,
-        "remaining" => $limit - 1,
-        "reset_in" => $interval_seconds,
-      );
+    // Fixed-window counter: the window number is baked into the bucket key, so
+    // each window gets a fresh counter automatically, no explicit reset step needed.
+    $window = intdiv(time(), $interval_seconds);
+    $bucket_key = $this->get_transient_key("rt_" . $limit . "_" . $interval_seconds . sha1($key) . "_" . $window);
+    $reset_time = ($window + 1) * $interval_seconds;
+    $reset_in = $reset_time - time();
+
+    if (wp_using_ext_object_cache()) {
+      // Atomic at the cache backend (Redis/Memcached INCR), no DB round-trip.
+      wp_cache_add($bucket_key, 0, "altcha_rate_limit", $interval_seconds);
+      $count = wp_cache_incr($bucket_key, 1, "altcha_rate_limit");
+      if ($count === false) {
+        // Backend without incr support: fail open on the counter, not on the request.
+        $count = 1;
+      }
+    } else {
+      // No persistent cache: atomic single-row UPDATE on wp_options (same table
+      // transients already use), no locking needed, InnoDB handles the row atomically.
+      $option_name = "_transient_" . $bucket_key;
+      $inserted = $wpdb->query($wpdb->prepare(
+        "INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, '0', 'no')",
+        $option_name
+      ));
+      if ($inserted) {
+        // Let WordPress's own transient garbage collection sweep this bucket later.
+        update_option("_transient_timeout_" . $bucket_key, $reset_time, false);
+      }
+      $wpdb->query($wpdb->prepare(
+        "UPDATE {$wpdb->options} SET option_value = option_value + 1 WHERE option_name = %s",
+        $option_name
+      ));
+      $count = (int) $wpdb->get_var($wpdb->prepare(
+        "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+        $option_name
+      ));
     }
-    $ttl = $data["reset_time"] - time();
-    if ($data["count"] >= $limit) {
-      // limit exceeded
-      return array(
-        "data" => $data,
-        "exceeded" => true,
-        "remaining" => 0,
-        "reset_in" => $ttl,
-      );
-    }
-    // increment count
-    $data["count"]++;
-    set_transient($transient_key, $data, $ttl);
 
     return array(
-      "data" => $data,
-      "exceeded" => false,
-      "remaining" => $limit - $data["count"],
-      "reset_in" => $ttl,
+      "data" => array(
+        "count" => $count,
+        "reset_time" => $reset_time,
+      ),
+      "exceeded" => $count > $limit,
+      "remaining" => max(0, $limit - $count),
+      "reset_in" => $reset_in,
     );
   }
 
