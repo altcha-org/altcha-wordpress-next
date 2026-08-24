@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.2.0
-Stable tag: 3.2.0
+Version: 3.3.0
+Stable tag: 3.3.0
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -47,6 +47,10 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.3.0 =
+* ALTCHA Widget updated to 3.2.2
+* Minor admin app UI fixes
 
 = 3.2.0 =
 * Fix: nonce issue across admin AJAX endpoints
