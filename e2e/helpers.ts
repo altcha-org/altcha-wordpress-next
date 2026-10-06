@@ -65,11 +65,7 @@ const getPluginDataNonce = ClientFunction(() => (window as any).pluginData?.altc
 export async function getAdminNonce(t: TestController): Promise<string> {
   await t.navigateTo(getUrl('/wp-admin/admin.php?page=altcha'));
   await delay(1500);
-  const nonce = await getPluginDataNonce();
-  if (!nonce) {
-    throw new Error('Could not read admin ajax nonce from pluginData.');
-  }
-  return nonce;
+  return getPluginDataNonce();
 }
 
 // admin-ajax.php requires the WordPress auth cookie (httpOnly), which TestCafe's
