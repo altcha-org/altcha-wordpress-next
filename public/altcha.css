@@ -22,6 +22,10 @@
   margin-bottom: 0 !important;
 }
 
+.altcha-code-challenge form input {
+  margin-bottom: 0 !important;
+}
+
 .login .altcha:not([data-floating]) {
   --altcha-max-width: 100%;
 }
