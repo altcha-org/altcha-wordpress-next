@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.3.0
-Stable tag: 3.3.0
+Version: 3.4.0
+Stable tag: 3.4.0
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -47,6 +47,12 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.4.0 =
+* ALTCHA Widget updated to 3.3.0
+* ALTCHA library updated to 2.3.0
+* Fix: CSS - code challenge input margin (override WP styling in login form)
+* Fix: Replay protection wit Sentinel - use signed ID from verificationData and reject payloads with ID
 
 = 3.3.0 =
 * ALTCHA Widget updated to 3.2.2
