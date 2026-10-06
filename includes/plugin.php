@@ -1296,8 +1296,8 @@ class AltchaPlugin
     }
 
     if (isset($data) && isset($data["verificationData"])) {
-      $challenge_id = isset($data["id"]) ? $data["id"] : (isset($data["challenge"]) ? $data["challenge"] : null);
-      if (empty($challenge_id) || $this->check_used_challenge($challenge_id) !== true) {
+      $challenge_id = isset($params["verification_data"]) && isset($params["verification_data"]["id"]) ? $params["verification_data"]["id"] : null;
+      if (!empty($challenge_id) && $this->check_used_challenge($challenge_id) !== true) {
         $mode = $this->get_settings("mode");
         if ($mode === "sentinel") {
           $result = $this->verify_sentinel_signature($data, $params);
