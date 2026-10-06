@@ -12,6 +12,6 @@
         }
     ],
     "require": {
-        "altcha-org/altcha": "^2.1"
+        "altcha-org/altcha": "^2.3"
     }
 }
