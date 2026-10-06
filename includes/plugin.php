@@ -65,7 +65,7 @@ class AltchaPlugin
 
   public static $is_ajax = false;
 
-  public static $widget_cdn_url = "https://cdn.jsdelivr.net/gh/altcha-org/altcha@3.2.1/dist/main/altcha.i18n.min.js";
+  public static $widget_cdn_url = "https://cdn.jsdelivr.net/gh/altcha-org/altcha@3.3.0/dist/main/altcha.i18n.min.js";
 
   public static $max_body_size = 4096; // 4kB
 
