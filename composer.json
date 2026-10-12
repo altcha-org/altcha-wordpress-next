@@ -1,5 +1,6 @@
 {
     "name": "altcha-org/altcha-wordpress-next",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "AltchaOrg\\AltchaWordpress\\": "src/"
@@ -13,5 +14,8 @@
     ],
     "require": {
         "altcha-org/altcha": "^2.3"
+    },
+    "extra": {
+        "installer-name": "altcha"
     }
 }
