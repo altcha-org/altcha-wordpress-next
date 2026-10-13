@@ -500,8 +500,8 @@ if (!isset(AltchaPlugin::$instance)) {
   new AltchaPlugin();
 }
 
-if (is_admin()) {
-  new AltchaPluginUpdater(
-    __FILE__,
-  );
-}
+// Must not be limited to is_admin(): auto-updates run in WP-Cron and WP-CLI,
+// and post_install has to run there to keep the plugin folder and activation.
+new AltchaPluginUpdater(
+  __FILE__,
+);
