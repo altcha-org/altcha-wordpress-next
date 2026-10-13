@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.4.1
-Stable tag: 3.4.1
+Version: 3.4.2
+Stable tag: 3.4.2
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -47,6 +47,10 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.4.2 =
+* Fix: Auto-updates run in WP-Cron and WP-CLI [#35]
+* Fix: Updater response caching
 
 = 3.4.1 =
 * Added Composer / Bedrock support - type and installer-name in composer.json
