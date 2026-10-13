@@ -28,6 +28,8 @@ class AltchaPluginUpdater
   private $plugin_file = null;
   private $plugin_slug = null;
   private $authorize_token = null;
+  private $cache_key = "altcha_github_release";
+  private $cache_ttl = HOUR_IN_SECONDS;
 
   public function __construct(string $plugin_file, string|null $token = null)
   {
@@ -85,6 +87,10 @@ class AltchaPluginUpdater
 
   private function get_github_data()
   {
+    $cached = get_site_transient($this->cache_key);
+    if (is_array($cached)) {
+      return $cached;
+    }
     $url = "https://api.github.com/repos/{$this->username}/{$this->repository}/releases/latest";
     $args = array(
       "headers" => array(
@@ -98,7 +104,16 @@ class AltchaPluginUpdater
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
       return false;
     }
-    return json_decode(wp_remote_retrieve_body($response), true);
+    $data = json_decode(wp_remote_retrieve_body($response), true);
+    if (!is_array($data) || empty($data["tag_name"])) {
+      return false;
+    }
+    $release = array(
+      "tag_name" => $data["tag_name"],
+      "html_url" => $data["html_url"] ?? "",
+    );
+    set_site_transient($this->cache_key, $release, $this->cache_ttl);
+    return $release;
   }
 
   public function post_install($response, $hook_extra, $result)
