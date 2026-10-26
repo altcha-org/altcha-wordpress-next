@@ -2,8 +2,8 @@
 Tags: altcha, captcha, recaptcha, hcaptcha, spam, anti-spam, anti-bot
 Author: Altcha.org
 Author URI: https://altcha.org
-Version: 3.4.2
-Stable tag: 3.4.2
+Version: 3.5.0
+Stable tag: 3.5.0
 Requires at least: 5.0
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -47,6 +47,11 @@ Download and install the plugin manually:
 4. Review the settings
 
 == Changelog ==
+
+= 3.5.0 =
+* Security: WP Login protection could be bypassed by adding an `action` parameter (e.g. `?action=login`) or a field matching a configured `name=value` action pattern; wp-login.php requests are now classified the same way WordPress core resolves them
+* Fix: Password reset protection now also covers core's `retrievepassword` action alias
+* ALTCHA Widget updated to 3.5.0
 
 = 3.4.2 =
 * Fix: Auto-updates run in WP-Cron and WP-CLI [#35]
