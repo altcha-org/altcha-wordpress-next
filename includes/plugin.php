@@ -709,6 +709,40 @@ class AltchaPlugin
     return $this->normalize_path($uri);
   }
 
+  /**
+   * Resolves the action wp-login.php will handle, mirroring core's normalization:
+   * a `key` or `checkemail` query param overrides `action`, and unknown actions
+   * without a `login_form_{$action}` handler fall back to "login".
+   */
+  public function get_wp_login_action(): string
+  {
+    $action = isset($_REQUEST["action"]) && is_string($_REQUEST["action"]) ? $_REQUEST["action"] : "login";
+    if (isset($_GET["key"])) {
+      $action = "resetpass";
+    }
+    if (isset($_GET["checkemail"])) {
+      $action = "checkemail";
+    }
+    $default_actions = array(
+      "confirm_admin_email",
+      "postpass",
+      "logout",
+      "lostpassword",
+      "retrievepassword",
+      "resetpass",
+      "rp",
+      "register",
+      "checkemail",
+      "confirmaction",
+      "login",
+      "entered_recovery_mode", // WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED (WP 5.2+)
+    );
+    if (!in_array($action, $default_actions, true) && has_filter("login_form_" . $action) === false) {
+      $action = "login";
+    }
+    return $action;
+  }
+
   public function get_secret(): string
   {
     return trim(get_option(self::$option_secret));

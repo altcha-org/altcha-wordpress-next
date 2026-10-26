@@ -261,9 +261,10 @@ function altcha_enqueue_interceptor_scripts()
   if (!$bypass) {
     switch ($pagenow) {
       case "wp-login.php":
-        if (isset($_GET["action"]) && sanitize_text_field($_GET["action"]) === "lostpassword") {
+        $login_action = $plugin->get_wp_login_action();
+        if ($login_action === "lostpassword" || $login_action === "retrievepassword") {
           $should_inject = $plugin->get_settings("protectPasswordReset") === true;
-        }else if (isset($_GET["action"]) && sanitize_text_field($_GET["action"]) === "register") {
+        } else if ($login_action === "register") {
           $should_inject = $plugin->get_settings("protectRegistration") === true;
         } else {
           $should_inject = $plugin->get_settings("protectLogin") === true;

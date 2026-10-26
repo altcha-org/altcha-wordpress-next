@@ -135,9 +135,11 @@
         if (request.url.pathname.endsWith("/wp-login.php")) {
           const action = matchActions(request, [
             "lostpassword",
+            "retrievepassword",
             "register",
           ]);
-          return action || "login";
+          // retrievepassword is core's alias of lostpassword
+          return action === "retrievepassword" ? "lostpassword" : (action || "login");
         } else if (request.url.pathname.endsWith("/wp-register.php")) {
           return "register";
         } else if (request.url.pathname.endsWith("/wp-comments-post.php")) {
@@ -331,7 +333,7 @@
     filter: async (request) => {
       const isLogin = request.method === "POST" && !!request.body?.log && !!request.body?.pwd;
       const isRegistration = request.method === "POST" && (request.url.pathname.endsWith("/wp-register.php") || request.url.searchParams.get("action") === "register");
-      const isPasswordReset = request.method === "POST" && request.url.searchParams.get("action") === "lostpassword";
+      const isPasswordReset = request.method === "POST" && ["lostpassword", "retrievepassword"].includes(request.url.searchParams.get("action"));
       const isComment = request.method === "POST" && !!request.url.pathname.endsWith("/wp-comments-post.php");
       if (request.url.origin !== location.origin) {
         return false;

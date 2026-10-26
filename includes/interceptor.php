@@ -83,10 +83,11 @@ function altcha_interceptor()
   $bypass_user_agents = $plugin->get_settings("bypassUserAgents");
   $sentinel_score_block = intval($plugin->get_settings("sentinelScoreBlock", 0));
   $is_login_page = !empty($script_name) && $script_name === "wp-login.php";
-  $is_login_action = $is_login_page && empty($_GET["action"]) && empty($_POST["action"]);
+  $login_action = $is_login_page ? $plugin->get_wp_login_action() : null;
+  $is_login_action = $login_action === "login";
   $is_comments_page = !empty($script_name) && $script_name === "wp-comments-post.php";
-  $is_password_reset = $is_login_page && !empty($_GET["action"]) && sanitize_text_field($_GET["action"]) === "lostpassword";
-  $is_registration = (!empty($script_name) && $script_name === "wp-register.php") || ($is_login_page && !empty($_GET["action"]) && sanitize_text_field($_GET["action"]) === "register");
+  $is_password_reset = $login_action === "lostpassword" || $login_action === "retrievepassword";
+  $is_registration = (!empty($script_name) && $script_name === "wp-register.php") || $login_action === "register";
   $ip_address = $plugin->get_ip_address();
 
   if (empty($ip_address)) {
@@ -114,7 +115,7 @@ function altcha_interceptor()
     return;
   }
 
-  if ($is_login_action && !$is_registration && !$is_password_reset && $protect_login !== true) {
+  if ($is_login_action && $protect_login !== true) {
     // Bypass for login page
     return;
   }
@@ -171,7 +172,7 @@ function altcha_interceptor()
       // Bypass for internal actions
       return;
     }
-  } else if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login === true && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
+  } else if (!empty($script_name) && in_array($script_name, array("wp-login.php", "wp-register.php")) && $protect_login === true && !$is_login_action && !empty($action) && $plugin->match_patterns($action, $actions_list) === false) {
     // Bypass for whitelisted login action
     return;
   }
