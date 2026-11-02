@@ -15,15 +15,18 @@ By copying, accessing, or using the Software, you acknowledge that you have read
 * “Software” means the source code, object code, executables, documentation, and related materials provided by Licensor.
 * “Licensee” means the individual or entity granted rights under this Agreement.
 * “Licensor” means BAU Software s.r.o., or its assigns.
-* “Production Use” means any use of the Software in a live, public, or commercial environment where it processes real end-user data, serves network traffic, provides services to third parties, or supports business operations outside internal testing, debugging, or development.
-* “Modification” or “Modify” means any alteration, adaptation, translation, compilation, or creation of derivative works of the Software, including combining it with other code.
+* “Production Use” means any use of the Software or a Modification in a live, public, or commercial environment where it processes real end-user data, serves network traffic, provides services to third parties, or supports business operations outside internal testing, debugging, or development.
+* “Modification” or “Modify” means a material alteration or adaptation of the Software, or the creation of a derivative work based on the Software, including changes to its source code or functionality. Routine configuration, compilation, minification, packaging, deployment, linking, or integration with other software does not, by itself, constitute a Modification, provided it does not materially alter the Software or create a derivative work.
+* “Agency License” means a commercial license issued by Licensor that authorizes an agency or service provider to install or use the Software on multiple websites, including websites owned or operated by its clients, subject to the terms of that license.
+* “Commercial License” means any Professional Plan, Agency License, multi-site license, or other written commercial license issued by Licensor that grants additional rights to use the Software.
 
 ## 3. LICENSE GRANT
 
 Subject to the terms and conditions of this Agreement, Licensor grants Licensee a non-exclusive, non-transferable, revocable, limited license to:
 
-1. Access and use the Software solely for internal development, testing, debugging, and evaluation;
-2. Create Modifications of the Software solely for internal testing, debugging, and evaluation purposes.
+1. Install, copy, access, and use the original, unmodified Software, including for Production Use, subject to the terms and restrictions of this Agreement and the Free Plan described in Section 14;
+2. Install, copy, deploy, and use the original, unmodified Software on websites and hosting environments operated by or on behalf of Licensee, including websites owned or operated by Licensee’s clients, provided that such use complies with the applicable Free Plan or Commercial License. Licensee may authorize its employees, contractors, and service providers to perform these activities on its behalf, subject to this Agreement and any applicable Commercial License;
+3. Create and use Modifications solely for internal development, testing, debugging, and evaluation purposes, subject to the restrictions in Section 4.
 
 No other rights are granted, express or implied.
 
@@ -31,39 +34,50 @@ No other rights are granted, express or implied.
 
 Licensee shall not, and shall not permit others to:
 
-1. Distribute, publish, sublicense, lease, sell, share, transfer, rent, host, or otherwise make the Software (in whole or part, including source or object code) available to any third party;
-2. Use the Software or any Modifications for Production Use;
-3. Use the Software or Modifications in any commercial offering, hosted service, or production deployment;
+1. Distribute, publish, sublicense, lease, sell, rent, or otherwise make the Software or any Modifications available to third parties as a standalone product or for independent use, except as expressly permitted by this Agreement or a separate written license from Licensor. For clarity, installing, deploying, configuring, updating, maintaining, or operating the original, unmodified Software on websites or hosting environments owned or operated by Licensee’s clients, as part of services provided by Licensee, does not by itself constitute prohibited distribution or sublicensing, provided that Licensee complies with the applicable license terms;
+2. Use any Modification for Production Use unless expressly authorized by a separate written license from Licensor;
+3. Use any Modification in a commercial offering, hosted service, or production deployment unless expressly authorized by a separate written license from Licensor;
 4. Remove or alter any copyright, trademark, or proprietary notices;
-5. Allow access to the Software by contractors or third parties unless they are bound by confidentiality and use restrictions at least as protective as this Agreement and act solely on Licensee’s behalf for internal testing or debugging;
-6. Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source or design of compiled components, except to the extent permitted by applicable law notwithstanding this restriction.
+5. Allow access to the Software or Modifications by contractors or other third parties unless they are bound by confidentiality and use restrictions at least as protective as this Agreement and act solely on Licensee’s behalf for purposes permitted under this Agreement;
+6. Reverse engineer, decompile, disassemble, or otherwise attempt to derive the source or design of compiled components, except to the extent permitted by applicable law notwithstanding this restriction;
+7. Permit clients or other third parties to independently redistribute, resell, sublicense, or commercially exploit the Software or any Modifications, except as expressly authorized by a separate written license from Licensor. This restriction does not prohibit ordinary use of a client website on which the original, unmodified Software has been installed and configured in accordance with this Agreement.
+
+For clarity, Sections 4.2 and 4.3 restrict Production Use and commercial deployment of Modifications. They do not prohibit Production Use of the original, unmodified Software under the Free Plan, including ordinary configuration, deployment, compilation, packaging, and integration that do not constitute a Modification under Section 2.
+
+Any exception to these restrictions must be expressly granted in a separate written license from Licensor. A Commercial License overrides these restrictions only to the extent expressly stated in that license.
 
 ## 5. OWNERSHIP
 
-The Software is and remains the exclusive property of Licensor.
-This Agreement grants Licensee only a limited right to use the Software; it does not convey any title, ownership, or intellectual property rights.
-All rights not expressly granted herein are reserved by Licensor.
+The Software is and remains the exclusive property of Licensor or its respective rights holders.
+
+This Agreement grants Licensee only the limited rights expressly stated herein; it does not convey any title, ownership, or intellectual property rights in the Software.
+
+All rights not expressly granted herein are reserved by Licensor, subject to any applicable third-party license terms.
 
 ## 6. FEEDBACK
 
 If Licensee provides feedback, bug reports, suggestions, or patches (“Feedback”), Licensor may freely use, reproduce, and incorporate such Feedback without restriction or obligation.
-Licensee hereby assigns to Licensor all rights, title, and interest in such Feedback.
+
+To the extent permitted by applicable law, Licensee assigns to Licensor all rights, title, and interest in such Feedback. If any rights cannot be assigned, Licensee grants Licensor a perpetual, worldwide, irrevocable, transferable, sublicensable, royalty-free license to use, reproduce, modify, distribute, and otherwise exploit such Feedback for any purpose.
 
 ## 7. TERM AND TERMINATION
 
 This Agreement is effective upon Licensee’s receipt of the Software and remains in effect until terminated.
+
 Licensor may terminate this Agreement immediately if Licensee breaches any term.
 
 Upon termination, Licensee must:
 
-* Cease all use of the Software;
-* Destroy or return all copies, including Modifications;
-* Retain copies only where required by applicable law.
+* Cease all use of the Software and any Modifications;
+* Destroy or return all copies of the Software and Modifications, except to the extent retention is required by applicable law.
+
+Termination does not affect any rights or obligations that accrued before termination.
 
 ## 8. ENFORCEMENT AND REMEDIES
 
-Licensee acknowledges that unauthorized distribution, Production Use, or breach of restrictions would cause irreparable harm to Licensor.
-Licensor is entitled to seek injunctive relief and any other remedies available at law or in equity.
+Licensee acknowledges that unauthorized distribution, Production Use of Modifications, or other breaches of this Agreement may cause harm to Licensor.
+
+Licensor is entitled to seek injunctive relief and any other remedies available at law or in equity, subject to applicable law.
 
 ## 9. EXCLUDED COMPONENTS
 
@@ -72,22 +86,25 @@ Certain components are distributed only in minified or compiled form, and their 
 * `/public/vendor/*`
 * Any other precompiled or bundled components explicitly marked as such
 
-These components may be used only as part of the Software and may not be reverse engineered, decompiled, or extracted except where required by law.
+These components may be used only as part of the Software and may not be reverse engineered, decompiled, or extracted except where required by law or expressly permitted by the applicable license terms.
 
 ## 10. THIRD-PARTY COMPONENTS
 
 The Software may include or link to third-party components under separate license terms.
-Those third-party terms govern their respective components and are not affected by this Agreement.
+
+Those third-party terms govern their respective components and are not affected by this Agreement. Nothing in this Agreement is intended to restrict rights granted under applicable third-party licenses.
 
 ## 11. NO WARRANTIES
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WITHOUT LIMITATION ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NON-INFRINGEMENT.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WITHOUT LIMITATION ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NON-INFRINGEMENT.
 
-Licensee assumes all risks arising from use of the Software.
+Licensee assumes all risks arising from use of the Software, except to the extent such risks cannot be excluded under applicable law.
 
 ## 12. LIMITATION OF LIABILITY
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF PROFITS, DATA, OR BUSINESS INTERRUPTION) ARISING FROM OR RELATING TO THIS AGREEMENT OR THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, INCLUDING LOSS OF PROFITS, DATA, OR BUSINESS INTERRUPTION, ARISING FROM OR RELATING TO THIS AGREEMENT OR THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+Nothing in this Agreement excludes or limits liability to the extent that such exclusion or limitation is prohibited by applicable law.
 
 ## 13. EXPORT AND COMPLIANCE
 
@@ -95,14 +112,20 @@ Licensee shall comply with all applicable export, import, and trade control laws
 
 ## 14. COMMERCIAL AND PRODUCTION LICENSES
 
-A Free Plan applies automatically upon installation of the Software. The Free Plan allows Production Use of the Software, subject to the general terms and restrictions of this Agreement.
+A Free Plan applies automatically upon installation of the Software. The Free Plan permits Licensee to install, deploy, and use the original, unmodified Software for Production Use, subject to the general terms and restrictions of this Agreement.
 
-For additional features, support, or enhanced rights, Licensee may purchase a Professional Plan or another commercial license from Licensor.
+The Free Plan also permits Licensee to install, configure, maintain, and operate the original, unmodified Software on websites owned or operated by Licensee’s clients as part of services provided by Licensee, subject to the restrictions in this Agreement. The Free Plan does not grant rights to independently redistribute, resell, or sublicense the Software.
+
+The Free Plan does not authorize Production Use of any Modification. Modifications may be created and used solely for internal development, testing, debugging, and evaluation unless Licensor expressly authorizes additional rights under a separate written license.
+
+Licensor may offer Professional Plans, Agency Licenses, multi-site licenses, or other Commercial Licenses that grant additional rights, including support for multiple websites, client installations, or Production Use of Modifications. The scope of those rights, including any applicable website limits, client-use permissions, and authorization to distribute or use Modifications, shall be determined by the terms of the applicable Commercial License.
+
+A Commercial License overrides the restrictions of this Agreement only to the extent expressly stated in that license.
 
 ## 15. GENERAL
 
 1. Severability – If any provision is held unenforceable, the remaining provisions shall remain in full force and effect.
 2. Waiver – Failure to enforce any right or provision shall not constitute a waiver of that right.
-3. Governing Law – This Agreement is governed by and construed in accordance with the laws of the Czech Republic, without regard to conflict of law principles.
-4. Entire Agreement – This Agreement constitutes the entire agreement between the parties with respect to the Software and supersedes all prior or contemporaneous understandings.
-
+3. Governing Law – This Agreement is governed by and construed in accordance with the laws of the Czech Republic, without regard to conflict of law principles, subject to any mandatory rules of applicable law.
+4. Entire Agreement – This Agreement constitutes the entire agreement between the parties with respect to the Software and supersedes all prior or contemporaneous understandings concerning its subject matter.
+5. Amendments – Any amendment or exception to this Agreement must be made in writing by Licensor. A separate Commercial License may grant additional rights or expressly override specific provisions of this Agreement.
