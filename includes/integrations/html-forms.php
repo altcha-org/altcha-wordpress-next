@@ -22,9 +22,21 @@
 if (!defined("ABSPATH")) exit;
 
 if (is_plugin_active("html-forms/html-forms.php")) {
-  // This makes it possible to use [altcha] shortcode inside html form
+  // Expand only [altcha] in the admin-authored form template. Priority 5 runs
+  // before HTML Forms' hf_template (priority 10) substitutes visitor-controlled
+  // values such as {{url_params.*}}, so those never reach a shortcode parser.
   add_filter(
-    "hf_form_html",
-    "do_shortcode"
+    "hf_form_markup",
+    "altcha_html_forms_render_shortcode",
+    5
   );
+}
+
+function altcha_html_forms_render_shortcode($markup)
+{
+  if (!is_string($markup) || strpos($markup, "[altcha") === false) {
+    return $markup;
+  }
+  $pattern = get_shortcode_regex(array("altcha"));
+  return preg_replace_callback("/$pattern/", "do_shortcode_tag", $markup);
 }
